@@ -1,0 +1,67 @@
+#: import FallOutTransition kivy.uix.screenmanager.FallOutTransition
+
+<ScreenMan>:
+	transition: FallOutTransition()
+	Screen:
+		name: "login_screen"
+		MDFloatLayout:
+			MDTextField:
+				hint_text: "Username"
+				mode: "rectangle"
+				size_hint_x: .75
+				pos_hint: {"center_x": .5, "center_y": .55}
+				required: True
+			MDTextField:
+				hint_text: "Password"
+				mode: "rectangle"
+				size_hint_x: .75
+				pos_hint: {"center_x": .5, "center_y": .45}
+				required: True
+			MDFlatButton:
+				text: "Sign Up"
+				size_hint_x: .372
+				pos_hint: {"center_x": .310, "center_y": .35}
+				on_release: root.current = "signup_screen"
+			MDRaisedButton:
+				text: "Login"
+				size_hint_x: .372
+				pos_hint: {"center_x": .69, "center_y": .35}
+	Screen:
+		name: "signup_screen"
+		MDFloatLayout:
+			orientation: "vertical"
+			MDTextField:
+				hint_text: "Fullname"
+				mode: "rectangle"
+				size_hint_x: .75
+				pos_hint: {"center_x": .5, "center_y": .70}
+				required: True
+			MDTextField:
+				hint_text: "Section"
+				mode: "rectangle"
+				size_hint_x: .75
+				pos_hint: {"center_x": .5, "center_y": .55}
+				required: True
+			MDTextField:
+				hint_text: "LRN"
+				mode: "rectangle"
+				size_hint_x: .75
+				pos_hint: {"center_x": .5, "center_y": .40}
+				required: True
+			MDTextField:
+				hint_text: "Password"
+				mode: "rectangle"
+				size_hint_x: .75
+				pos_hint: {"center_x": .5, "center_y": .25}
+				required: True
+			MDFlatButton:
+				text: "Back"
+				size_hint_x: .372
+				pos_hint: {"center_x": .31, "center_y": .15}
+				on_release: root.current = "login_screen"
+			MDRaisedButton:
+				text: "Sign Up"
+				size_hint_x: .372
+				pos_hint: {"center_x": .69, "center_y": .15}	
+				
+			
