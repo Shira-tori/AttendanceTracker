@@ -33,7 +33,8 @@ class ScreenMan(ScreenManager):
             print("WRONG PASSWORD BITCH")
 
     def register(self):
-        print(self.fullname.error)
+        if (self.fullname.error != True) and (self.section.error != True) and (self.lrn_register.error != True) and (self.password_register != True):
+            mycursor.execute("INSERT INTO students (name, section, grade, lrn, password) VALUES (%s, %s, %s, %s ,%s)", (self.fullname.text, self.section.text, "8", self.lrn_register.text, self.password_register.text))
 
 
 class AttendanceApp(MDApp):
