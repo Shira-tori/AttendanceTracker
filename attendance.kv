@@ -1,6 +1,12 @@
 #: import FallOutTransition kivy.uix.screenmanager.FallOutTransition
 
 <ScreenMan>:
+	lrn: lrn
+	password: password
+	fullname: fullname
+	section: section
+	lrn_register: lrn_register
+	password_register: password_register
 	signup_screen: signup_screen
 	transition: FallOutTransition()
 	Screen:
@@ -8,16 +14,19 @@
 		name: "login_screen"
 		MDFloatLayout:
 			MDTextField:
+				id: lrn
 				hint_text: "LRN"
 				mode: "rectangle"
 				size_hint_x: .75
 				pos_hint: {"center_x": .5, "center_y": .55}
 			MDTextField:
+				id: password
 				hint_text: "Password"
 				mode: "rectangle"
 				size_hint_x: .75
 				pos_hint: {"center_x": .5, "center_y": .45}
 				required: True
+				password: True
 			MDFlatButton:
 				text: "Sign Up"
 				size_hint_x: .372
@@ -27,6 +36,7 @@
 				text: "Login"
 				size_hint_x: .372
 				pos_hint: {"center_x": .69, "center_y": .35}
+				on_release: root.login()
 	Screen:
 		id: signup_screen
 		name: "signup_screen"
@@ -54,30 +64,34 @@
 					size: "48dp", "48dp"
 					pos_hint: {'center_x': .77, 'center_y': .082}
 			MDTextField:
-				id: text_field
+				id: fullname 
 				hint_text: "Fullname"
 				mode: "rectangle"
 				size_hint_x: .75
 				pos_hint: {"center_x": .5, "center_y": .70}
 				required: True
 			MDTextField:
+				id: section
 				hint_text: "Section"
 				mode: "rectangle"
 				size_hint_x: .75
 				pos_hint: {"center_x": .5, "center_y": .55}
 				required: True
 			MDTextField:
+				id: lrn_register
 				hint_text: "LRN"
 				mode: "rectangle"
 				size_hint_x: .75
 				pos_hint: {"center_x": .5, "center_y": .40}
 				required: True
 			MDTextField:
+				id: password_register
 				hint_text: "Password"
 				mode: "rectangle"
 				size_hint_x: .75
 				pos_hint: {"center_x": .5, "center_y": .25}
 				required: True
+				password: True
 			MDFlatButton:
 				text: "Back"
 				size_hint_x: .372
@@ -86,4 +100,5 @@
 			MDRaisedButton:
 				text: "Sign Up"
 				size_hint_x: .372
-				pos_hint: {"center_x": .69, "center_y": .15}	
+				pos_hint: {"center_x": .69, "center_y": .15}
+				on_release: root.register()	
