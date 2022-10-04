@@ -8,11 +8,15 @@
 	lrn_register: lrn_register
 	password_register: password_register
 	signup_screen: signup_screen
+	floatLayout: float_layout
+	signupButton: signupButton
+	loginButton: loginButton
 	transition: FallOutTransition()
 	Screen:
 		id: login_screen
 		name: "login_screen"
 		MDFloatLayout:
+			id: float_layout
 			MDTextField:
 				id: lrn
 				hint_text: "LRN"
@@ -28,11 +32,13 @@
 				required: True
 				password: True
 			MDFlatButton:
+				id: signupButton
 				text: "Sign Up"
 				size_hint_x: .372
 				pos_hint: {"center_x": .310, "center_y": .35}
 				on_release: root.current = "signup_screen"
 			MDRaisedButton:
+				id: loginButton
 				text: "Login"
 				size_hint_x: .372
 				pos_hint: {"center_x": .69, "center_y": .35}
