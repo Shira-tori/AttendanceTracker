@@ -27,6 +27,7 @@ class ScreenMan(ScreenManager):
     floatLayout = ObjectProperty()
     signupButton = ObjectProperty()
     loginButton = ObjectProperty()
+    grade = ObjectProperty()
     failed = BooleanProperty(False)
     def error_anim(self):
         if mycursor.fetchone() == None:
@@ -81,8 +82,11 @@ class ScreenMan(ScreenManager):
             
 
     def register(self):
-        if (self.fullname.error != True) and (self.section.error != True) and (self.lrn_register.error != True) and (self.password_register.error != True):
-            mycursor.execute("INSERT INTO students (name, section, grade, lrn, password) VALUES (%s, %s, %s, %s ,%s)", (self.fullname.text, self.section.text, "8", self.lrn_register.text, self.password_register.text))
+        if (self.fullname.error != True) and (self.section.error != True) and (self.lrn_register.error != True) and (self.password_register.error != True) and (self.grade.error != True) and (self.grade.text.isnumeric() == True) and (self.lrn_register.text.isnumeric() == True):
+            mycursor.execute("INSERT INTO students (name, section, grade, lrn, password) VALUES (%s, %s, %s, %s ,%s)", (self.fullname.text.strip().upper(), self.section.text.strip().upper(), int(self.grade.text), int(self.lrn_register.text), self.password_register.text))
+            mydb.commit()
+            print(self.fullname.text.strip().upper(), self.section.text.strip().upper(), int(self.grade.text), int(self.lrn_register.text), self.password_register.text)
+            print("SUCCESSFULLY CREATED AN ACCOUNT!")
 
     def update(self, dt):
         if (self.lrn.text.strip() == "") or (self.password.text.strip() == ""):

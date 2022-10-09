@@ -5,6 +5,7 @@
 	password: password
 	fullname: fullname
 	section: section
+	grade: grade
 	lrn_register: lrn_register
 	password_register: password_register
 	signup_screen: signup_screen
@@ -47,36 +48,37 @@
 		id: signup_screen
 		name: "signup_screen"
 		MDFloatLayout:
-			MDRelativeLayout:
-				pos_hint: {'y': .699}
-				height: "48dp"
-				MDCheckbox:
-					group: 'group'
-					size_hint: None, None
-					size: "48dp", "48dp"
-					pos_hint: {'center_x': .14, 'center_y': .082}
-					active: True
-				MDLabel:
-					text: "Student"	
-					size_hint: None, None
-					size: 20, 20
-					pos_hint: {'x': .17}
-				MDLabel:
-					text: "Teacher"	
-					size_hint: None, None
-					size: 20, 20
-					pos_hint: {'x': .8}
-				MDCheckbox:
-					group: 'group'
-					size_hint: None, None
-					size: "48dp", "48dp"
-					pos_hint: {'center_x': .77, 'center_y': .082}
+			#MDRelativeLayout:
+			#	pos_hint: {'y': .699}
+			#	height: "48dp"
+			#	MDCheckbox:
+			#		group: 'group'
+			#		size_hint: None, None
+			#		size: "48dp", "48dp"
+			#		pos_hint: {'center_x': .14, 'center_y': .082}
+			#		active: True
+			#	MDLabel:
+			#		text: "Student"	
+			#		size_hint: None, 1
+			#		size_x: "52dp" 
+			#		pos_hint: {'x': .17}
+			#	MDLabel:
+			#		text: "Teacher"	
+			#		size_hint: None, 1
+			#		size_x: "52dp"
+			#		pos_hint: {'x': .8}
+			#	MDCheckbox:
+			#		group: 'group'
+			#		size_hint: None, None
+			#		size: "48dp", "48dp"
+			#		pos_hint: {'center_x': .77, 'center_y': .082}
+		
 			MDTextField:
 				id: fullname 
 				hint_text: "Fullname"
 				mode: "rectangle"
 				size_hint_x: .75
-				pos_hint: {"center_x": .5, "center_y": .70}
+				pos_hint: {"center_x": .5, "center_y": .85}
 				required: True
 			#TODO: FIX THE POS OF GRADE TEXT FIELD
 			MDTextField:
@@ -84,7 +86,8 @@
 				hint_text: "Grade"
 				mode: "rectangle"
 				size_hint_x: .75
-				pos_hint: {"center_x": .5, }
+				pos_hint: {"center_x": .5, "center_y": .70}
+				required: True
 			MDTextField:
 				id: section
 				hint_text: "Section"
