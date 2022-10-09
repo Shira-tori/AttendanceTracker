@@ -28,6 +28,7 @@ class ScreenMan(ScreenManager):
     signupButton = ObjectProperty()
     loginButton = ObjectProperty()
     grade = ObjectProperty()
+    students_ui = ObjectProperty()
     failed = BooleanProperty(False)
     def error_anim(self):
         if mycursor.fetchone() == None:
@@ -65,6 +66,7 @@ class ScreenMan(ScreenManager):
         try:
             if self.password.text == mycursor.fetchone()[1]:
                 print("Login Successful!")
+                self.current = "students_ui"
 
             else:
                 if self.failed == True:

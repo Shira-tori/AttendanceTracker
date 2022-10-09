@@ -15,4 +15,5 @@ mycursor = mydb.cursor()
 #mycursor.execute("INSERT INTO students (name, section, grade, lrn, password) VALUES (%s, %s, %s, %s, %s)", ("SEAN DOMINIC FERNANDEZ", "ICT", "12", "136886100309", "hatdog"))
 #mydb.commit()
 mycursor.execute("SELECT * FROM students")
-print(mycursor.fetchone())
+for x in mycursor:
+    print(x)
