@@ -66,6 +66,7 @@ class ScreenMan(ScreenManager):
         try:
             if self.password.text == mycursor.fetchone()[1]:
                 print("Login Successful!")
+                self.current = "students_ui"
 
             else:
                 if self.failed == True:
