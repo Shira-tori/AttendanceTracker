@@ -1,0 +1,119 @@
+#: import FallOutTransition kivy.uix.screenmanager.FallOutTransition
+
+<NavLayout>:
+	ScreenMan:
+		transition: FallOutTransition()
+		Screen:
+			id: teachers_screen	
+			BoxLayout:
+				size_hint_y: 1
+				size_hint_x: 1
+				orientation: "vertical"
+				canvas.before:
+					Color:
+						rgba: .1326, .3907, .4767, 1
+					Rectangle:
+						pos: self.pos
+						size: self.size
+				MDTopAppBar:
+					#opposite _colors: True
+					set_bars_color: True
+					use_overflow: True
+					#type_height: "large"		        		        
+					title: "Teacher's Account"
+					#adaptive_height: True
+					md_bg_color: "black"
+					#specific_text_color: 1, 1, 1, 1
+					#92/255, 92/255, 92/255, 1
+					#right_action_items: [["dots-vertical", lambda x: app.callback()]]
+					left_action_items: [["menu", lambda x: nav_bar.set_state("open")]]
+					elevation: 15
+					
+				#MDSeparator:
+	#				height: "20dp"
+
+				MDTabs:
+					specific_text_color: 1, 1, 1, 1
+					background_color: "black"
+					#92/255, 92/255, 92/255, 1
+					tab_indicator_type: "line"
+					indicator_color: 1, 1, 1, 1
+					ripple_duration: 2
+					tab_hint_x: True
+					underline_color: 92/255, 92/255, 92/255, 1
+					elevation: 13
+
+					Tab:
+						allow_stretch: True				    
+						title: "Home"
+						icon: "home"
+						FloatLayout:		        
+							MDCard:
+								ripple_behavior: True
+								orientation: "vertical"
+								size_hint: None, None	
+								size: "280dp", "180dp"
+								pos_hint: {"center_x": .5, "center_y": .7}
+								on_release: root.current = "gradesection_screen"
+								MDLabel:
+									text: "Grade & Sections List"
+									font_name: 'Qazz'
+									theme_text_color: "Custom"
+									text_color: "teal"
+									font_size: "30dp"
+									bold: True
+									halign: "center"
+									valign: "middle"
+									
+							MDCard:
+								ripple_behavior: True
+								orientation: "vertical"							
+								size_hint: None, None
+								size: "280dp", "180dp"
+								pos_hint: {"center_x": .5, "center_y": .3}
+									#elevation: 20
+									
+								MDLabel:
+									text: "QR Code Scanner"
+									font_name: "Qazz"
+									theme_text_color: "Custom"                       
+									text_color: "teal"
+									font_size: "30dp"
+									bold: True
+									halign: "center"
+									valign: "middle"						       
+									
+						
+			
+					Tab:		          
+						title: "Notifications"
+						icon:"bell"
+						Label:
+							text: "No Notifications"
+						#on_press: root.switch_to(root.tab_list[1])	
+	MDNavigationDrawer:
+		id: nav_bar
+		MDBoxLayout:
+			orientation: "vertical"
+			spacing: "8dp"
+			padding: "8dp"
+			Image:
+				source: "louie.jpeg"
+			MDLabel:
+				text: "Louie Soriano"
+				font_name: "Qazz"
+				size_hint_y: None
+				height: self.texture_size[1]
+			MDLabel:
+				text: "sorianowhaat@gmail.com"
+				font_name: "Qazz"
+				size_hint_y: None
+				height: self.texture_size[1]
+
+			ScrollView:
+
+
+
+
+		
+					
