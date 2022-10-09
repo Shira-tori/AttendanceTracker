@@ -4,6 +4,7 @@ from kivymd.uix.screenmanager import ScreenManager
 from kivymd.uix.label import MDLabel
 from kivy.properties import ObjectProperty, BooleanProperty
 from kivy.animation import Animation, AnimationTransition
+from kivy.clock import Clock
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -27,45 +28,73 @@ class ScreenMan(ScreenManager):
     signupButton = ObjectProperty()
     loginButton = ObjectProperty()
     failed = BooleanProperty(False)
-    def login(self):
-        try:
-            mycursor.execute("SELECT lrn, password FROM students WHERE lrn = {}".format(int(self.lrn.text)))
-        except:
-            print("LRN not found")
-            anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
-            anim.start(self.signupButton)
-            anim.start(self.loginButton)
-            if self.failed == False:
-                anim.on_complete(self.floatLayout.add_widget(MDLabel(text="LRN not found", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error")))
-                self.failed = True
-            else:
-                self.floatLayout.remove_widget(self.floatLayout.children[0])
-                self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
-            return
-        if self.password.text == mycursor.fetchone()[1]:
-            print("Login Successful!")
-
-        else:
+    def error_anim(self):
+        if mycursor.fetchone() == None:
             if self.failed == True:
                 self.floatLayout.remove_widget(self.floatLayout.children[0])
-                self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                self.floatLayout.add_widget(MDLabel(text="LRN not found.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
             else:
                 anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
                 anim.start(self.signupButton)
                 anim.start(self.loginButton)
-                self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                self.floatLayout.add_widget(MDLabel(text="LRN not found.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
                 self.failed = True
-            print("WRONG PASSWORD BITCH")
+            return
+        if self.failed == True:
+            self.floatLayout.remove_widget(self.floatLayout.children[0])
+            self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+        else:
+            anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
+            anim.start(self.signupButton)
+            anim.start(self.loginButton)
+            self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+            self.failed = True
+        print("WRONG PASSWORD BITCH")
+        return
+
+    def login(self):
+        try:
+            mycursor.execute(f"SELECT lrn, password FROM students WHERE lrn = {int(self.lrn.text)}")
+        except:
+            anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
+            anim.start(self.signupButton)
+            anim.start(self.loginButton)
+            self.floatLayout.add_widget(MDLabel(text="LRN not found.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+            return
+        try:
+            if self.password.text == mycursor.fetchone()[1]:
+                print("Login Successful!")
+
+            else:
+                if self.failed == True:
+                    self.floatLayout.remove_widget(self.floatLayout.children[0])
+                    self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                else:
+                    anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
+                    anim.start(self.signupButton)
+                    anim.start(self.loginButton)
+                    self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                    self.failed = True
+                print("WRONG PASSWORD BITCH")
+        except:
+            self.error_anim()
+            
 
     def register(self):
         if (self.fullname.error != True) and (self.section.error != True) and (self.lrn_register.error != True) and (self.password_register.error != True):
             mycursor.execute("INSERT INTO students (name, section, grade, lrn, password) VALUES (%s, %s, %s, %s ,%s)", (self.fullname.text, self.section.text, "8", self.lrn_register.text, self.password_register.text))
 
+    def update(self, dt):
+        if (self.lrn.text.strip() == "") or (self.password.text.strip() == ""):
+            self.loginButton.disabled = True
+        else:
+            self.loginButton.disabled = False
 
 class AttendanceApp(MDApp):
     def build(self):
         screenMan = ScreenMan()
         self.theme_cls.theme_style = "Dark"
+        Clock.schedule_interval(screenMan.update, 1.0/60.0)
         return screenMan
 
 if __name__ == '__main__':
