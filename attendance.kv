@@ -13,6 +13,7 @@
 	signupButton: signupButton
 	loginButton: loginButton
 	transition: FallOutTransition()
+	students_ui: students_ui
 	Screen:
 		id: login_screen
 		name: "login_screen"
@@ -120,3 +121,61 @@
 				size_hint_x: .372
 				pos_hint: {"center_x": .69, "center_y": .15}
 				on_release: root.register()	
+
+	Screen:
+		name: "students_ui"
+		id: students_ui
+		BoxLayout:
+			size_hint_y: 1 
+			size_hint_x: 1
+			orientation: "vertical"
+			canvas.before:
+				Color:
+					rgba: .1326, .3907, .4767, 1
+				Rectangle:
+					pos: self.pos
+					size: self.size
+		    
+
+			MDTopAppBar:
+				title: "Student's Account"
+				md_bg_color: "black"
+				left_action_items: [["menu", lambda x: app.callback()]]
+				elevation: 15
+	   
+			FloatLayout:        
+				MDCard:
+					ripple_behavior: True
+					orientation: "vertical"
+					size_hint: None, None
+					size: "200dp", "180dp"
+					pos_hint: {"center_x": .5, "center_y": .7}
+					MDLabel:
+						text: "Daily QR Code"
+						theme_text_color: "Custom"
+						text_color: "teal"
+						font_size: 40
+						font_name: "Comic"
+						bold: True
+						halign: "center"
+						valign: "middle"
+
+				MDCard:
+					ripple_behavior: True
+					orientation: "vertical"
+					size_hint: None, None
+					size: "200dp", "180dp"
+					pos_hint: {"center_x": .5, "center_y": .3}
+					#elevation: 20
+										
+					MDLabel:
+						text: "QR Code Scanner"
+						theme_text_color: "Custom"
+						text_color: "teal"
+						font_size: 40
+						font_name: "Comic"
+						bold: True
+						halign: "center"
+						valign: "middle"
+
+
