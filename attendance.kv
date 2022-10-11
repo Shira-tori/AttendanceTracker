@@ -19,6 +19,25 @@
 		name: "login_screen"
 		MDFloatLayout:
 			id: float_layout
+			MDCheckbox:
+				group: 'group'
+				pos_hint: {"center_x": .142, "center_y": .62}
+				size_hint: None, None
+				size: "45dp", "45dp"
+				active: True
+			MDLabel:
+				text: "Student"
+				pos_hint: {"x": .170, "center_y": .62}
+				padding_x: 5
+			MDCheckbox:
+				group: "group"
+				pos_hint: {"center_x": .70, "center_y": .62}
+				size_hint: None, None
+				size: "45dp", "45dp"
+			MDLabel:
+				text: "Teacher"
+				pos_hint: {"x": .728, "center_y": .62}
+				padding_x: 5
 			MDTextField:
 				id: lrn
 				hint_text: "LRN"
@@ -81,7 +100,6 @@
 				size_hint_x: .75
 				pos_hint: {"center_x": .5, "center_y": .85}
 				required: True
-			#TODO: FIX THE POS OF GRADE TEXT FIELD
 			MDTextField:
 				id: grade
 				hint_text: "Grade"
