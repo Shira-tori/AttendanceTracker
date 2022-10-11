@@ -51,13 +51,13 @@
                                 size_hint: None, None
                                 size: "200dp", "180dp"
                                 pos_hint: {"center_x": .5, "center_y": .7}
-                                on_release: root.current - "dailyqr_screen"
+                                
                                 MDLabel:
                                     text: "Daily QR Code"
                                     theme_text_color: "Custom"
                                     text_color: "teal"
                                     font_size: 40
-                                    font_name: "Comic"
+                                    font_name: 'Comic'
                                     bold: True
                                     halign: "center"
                                     valign: "middle"
@@ -75,13 +75,42 @@
                                     theme_text_color: "Custom"
                                     text_color: "teal"
                                     font_size: 40
-                                    font_name: "Comic"
+                                    font_name: 'Comic'
                                     bold: True
                                     halign: "center"
                                     valign: "middle"
 
             MDNavigationDrawer:
                 id: nav_drawer
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: '10dp'
+                    padding: '10dp'
+
+                    MDLabel:
+                        text: 'Account Settings'
+                        font_style: 'Subtitle1'
+                        font_name: 'Comic'
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                    MDLabel:
+                        text: 'Sign Out'
+                        font_style: 'Subtitle1'
+                        font_name: 'Comic'
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                    
+                    ScrollView:
+                        
+
+
+
+
+                
+
+
+        
     
 
                     
