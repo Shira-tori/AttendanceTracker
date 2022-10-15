@@ -18,17 +18,19 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 class ScreenMan(ScreenManager):
-    lrn = ObjectProperty()
+    username = ObjectProperty()
     password = ObjectProperty()
     fullname = ObjectProperty()
     section = ObjectProperty()
-    lrn_register = ObjectProperty()
+    username_register = ObjectProperty()
     password_register = ObjectProperty()
     floatLayout = ObjectProperty()
     signupButton = ObjectProperty()
     loginButton = ObjectProperty()
     grade = ObjectProperty()
     students_ui = ObjectProperty()
+    student_radio_button = ObjectProperty()
+    teacher_radio_button = ObjectProperty()
     failed = BooleanProperty(False)
     def error_anim(self):
         if mycursor.fetchone() == None:
@@ -56,7 +58,7 @@ class ScreenMan(ScreenManager):
 
     def login(self):
         try:
-            mycursor.execute(f"SELECT lrn, password FROM students WHERE lrn = {int(self.lrn.text)}")
+            mycursor.execute(f"SELECT username, password FROM students WHERE username = {int(self.username.text)}")
         except:
             anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
             anim.start(self.signupButton)
@@ -84,14 +86,14 @@ class ScreenMan(ScreenManager):
             
 
     def register(self):
-        if (self.fullname.error != True) and (self.section.error != True) and (self.lrn_register.error != True) and (self.password_register.error != True) and (self.grade.error != True) and (self.grade.text.isnumeric() == True) and (self.lrn_register.text.isnumeric() == True):
-            mycursor.execute("INSERT INTO students (name, section, grade, lrn, password) VALUES (%s, %s, %s, %s ,%s)", (self.fullname.text.strip().upper(), self.section.text.strip().upper(), int(self.grade.text), int(self.lrn_register.text), self.password_register.text))
+        if (self.fullname.error != True) and (self.section.error != True) and (self.username_register.error != True) and (self.password_register.error != True) and (self.grade.error != True) and (self.grade.text.isnumeric() == True) and (self.username_register.text.isnumeric() == True):
+            mycursor.execute("INSERT INTO students (name, section, grade, username, password) VALUES (%s, %s, %s, %s ,%s)", (self.fullname.text.strip().upper(), self.section.text.strip().upper(), int(self.grade.text), int(self.username.text), self.password_register.text))
             mydb.commit()
-            print(self.fullname.text.strip().upper(), self.section.text.strip().upper(), int(self.grade.text), int(self.lrn_register.text), self.password_register.text)
+            print(self.fullname.text.strip().upper(), self.section.text.strip().upper(), int(self.grade.text), int(self.username_register.text), self.password_register.text)
             print("SUCCESSFULLY CREATED AN ACCOUNT!")
 
     def update(self, dt):
-        if (self.lrn.text.strip() == "") or (self.password.text.strip() == ""):
+        if (self.username.text.strip() == "") or (self.password.text.strip() == ""):
             self.loginButton.disabled = True
         else:
             self.loginButton.disabled = False

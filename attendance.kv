@@ -1,7 +1,9 @@
 #: import FallOutTransition kivy.uix.screenmanager.FallOutTransition
+#: import Window kivy.core.window.Window
+#: import ScrollEffect kivy.effects.scroll.ScrollEffect
 
 <ScreenMan>:
-	lrn: lrn
+	username: username
 	password: password
 	fullname: fullname
 	section: section
@@ -14,12 +16,15 @@
 	loginButton: loginButton
 	transition: FallOutTransition()
 	students_ui: students_ui
+	student_radio_button: student_radio_button
+	teacher_radio_button: teacher_radio_button
 	Screen:
 		id: login_screen
 		name: "login_screen"
 		MDFloatLayout:
 			id: float_layout
 			MDCheckbox:
+				id: student_radio_button
 				group: 'group'
 				pos_hint: {"center_x": .142, "center_y": .62}
 				size_hint: None, None
@@ -30,6 +35,7 @@
 				pos_hint: {"x": .170, "center_y": .62}
 				padding_x: 5
 			MDCheckbox:
+				id: teacher_radio_button
 				group: "group"
 				pos_hint: {"center_x": .70, "center_y": .62}
 				size_hint: None, None
@@ -39,8 +45,8 @@
 				pos_hint: {"x": .728, "center_y": .62}
 				padding_x: 5
 			MDTextField:
-				id: lrn
-				hint_text: "LRN"
+				id: username
+				hint_text: "Username"
 				mode: "rectangle"
 				size_hint_x: .75
 				pos_hint: {"center_x": .5, "center_y": .55}
@@ -67,78 +73,74 @@
 	Screen:
 		id: signup_screen
 		name: "signup_screen"
-		MDFloatLayout:
-			#MDRelativeLayout:
-			#	pos_hint: {'y': .699}
-			#	height: "48dp"
-			#	MDCheckbox:
-			#		group: 'group'
-			#		size_hint: None, None
-			#		size: "48dp", "48dp"
-			#		pos_hint: {'center_x': .14, 'center_y': .082}
-			#		active: True
-			#	MDLabel:
-			#		text: "Student"	
-			#		size_hint: None, 1
-			#		size_x: "52dp" 
-			#		pos_hint: {'x': .17}
-			#	MDLabel:
-			#		text: "Teacher"	
-			#		size_hint: None, 1
-			#		size_x: "52dp"
-			#		pos_hint: {'x': .8}
-			#	MDCheckbox:
-			#		group: 'group'
-			#		size_hint: None, None
-			#		size: "48dp", "48dp"
-			#		pos_hint: {'center_x': .77, 'center_y': .082}
-		
-			MDTextField:
-				id: fullname 
-				hint_text: "Fullname"
-				mode: "rectangle"
-				size_hint_x: .75
-				pos_hint: {"center_x": .5, "center_y": .85}
-				required: True
-			MDTextField:
-				id: grade
-				hint_text: "Grade"
-				mode: "rectangle"
-				size_hint_x: .75
-				pos_hint: {"center_x": .5, "center_y": .70}
-				required: True
-			MDTextField:
-				id: section
-				hint_text: "Section"
-				mode: "rectangle"
-				size_hint_x: .75
-				pos_hint: {"center_x": .5, "center_y": .55}
-				required: True
-			MDTextField:
-				id: lrn_register
-				hint_text: "LRN"
-				mode: "rectangle"
-				size_hint_x: .75
-				pos_hint: {"center_x": .5, "center_y": .40}
-				required: True
-			MDTextField:
-				id: password_register
-				hint_text: "Password"
-				mode: "rectangle"
-				size_hint_x: .75
-				pos_hint: {"center_x": .5, "center_y": .25}
-				required: True
-				password: True
-			MDFlatButton:
-				text: "Back"
-				size_hint_x: .372
-				pos_hint: {"center_x": .31, "center_y": .15}
-				on_release: root.current = "login_screen"
-			MDRaisedButton:
-				text: "Sign Up"
-				size_hint_x: .372
-				pos_hint: {"center_x": .69, "center_y": .15}
-				on_release: root.register()	
+		ScrollView:
+			always_overscroll: False
+			do_scroll_x: False
+			effect_y: ScrollEffect()
+			MDFloatLayout:
+				size_hint_y: None
+				height: 620
+				MDTextField:
+					id: fullname 
+					hint_text: "Fullname"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: self.parent.height - self.height + 10
+					required: True
+				MDTextField:
+					id: username_register
+					hint_text: "Username"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: fullname.center_y - self.height - 30
+					required: True
+				MDTextField:
+					id: grade
+					hint_text: "Grade"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: username_register.center_y - self.height - 30
+					required: True
+				MDTextField:
+					id: section
+					hint_text: "Section"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: grade.center_y - self.height - 30
+					required: True
+				MDTextField:
+					id: lrn_register
+					hint_text: "LRN"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: section.center_y - self.height - 30
+					required: True
+				MDTextField:
+					id: password_register
+					hint_text: "Password"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: lrn_register.center_y - self.height - 30
+					required: True
+					password: True
+				MDFlatButton:
+					text: "Back"
+					size_hint_x: .372
+					pos_hint: {"center_x": .31}
+					center_y: password_register.center_y - self.height - 30
+					on_release: root.current = "login_screen"
+				MDRaisedButton:
+					text: "Sign Up"
+					size_hint_x: .372
+					pos_hint: {"center_x": .69}
+					center_y: password_register.center_y - self.height - 30
+					on_release: root.register()	
 
 	Screen:
 		name: "students_ui"
