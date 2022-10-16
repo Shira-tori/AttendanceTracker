@@ -11,6 +11,7 @@
 	lrn_register: lrn_register
 	password_register: password_register
 	signup_screen: signup_screen
+	username_register: username_register
 	floatLayout: float_layout
 	signupButton: signupButton
 	loginButton: loginButton
@@ -129,17 +130,26 @@
 					center_y: lrn_register.center_y - self.height - 30
 					required: True
 					password: True
+				MDCheckbox:
+					id: student_checkbox
+					group: "register"
+					size_hint: None, None
+					size: "45dp", "45dp"
+					pos_hint: {"x": register_back_button.x}
+					center_y: password_register.center_y - self.height - 30					
 				MDFlatButton:
+					id: register_back_button
 					text: "Back"
 					size_hint_x: .372
 					pos_hint: {"center_x": .31}
-					center_y: password_register.center_y - self.height - 30
+					center_y: student_checkbox.center_y - self.height - 30
 					on_release: root.current = "login_screen"
 				MDRaisedButton:
+					id: register_button
 					text: "Sign Up"
 					size_hint_x: .372
 					pos_hint: {"center_x": .69}
-					center_y: password_register.center_y - self.height - 30
+					center_y: student_checkbox.center_y - self.height - 30
 					on_release: root.register()	
 
 	Screen:
