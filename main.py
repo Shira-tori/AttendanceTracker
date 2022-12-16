@@ -32,6 +32,7 @@ class ScreenMan(ScreenManager):
     student_radio_button = ObjectProperty()
     teacher_radio_button = ObjectProperty()
     teachers_ui = ObjectProperty()
+    strand_list_container = ObjectProperty()
     failed = BooleanProperty(False)
     def error_anim(self):
         if mycursor.fetchone() == None:

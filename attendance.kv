@@ -20,6 +20,7 @@
 	student_radio_button: student_radio_button
 	teacher_radio_button: teacher_radio_button
 	teachers_ui: teachers_ui
+	strand_list_container: container
 	Screen:
 		id: login_screen
 		name: "login_screen"
@@ -211,5 +212,18 @@
 	Screen:
 		id: teachers_ui
 		name: "teachers_ui"
+		MDNavigationLayout:
+			MDScreenManager:
+				MDScreen:
+					MDTopAppBar:
+						title: "Strands"
+						pos_hint: {"top": 1}
+						left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+					MDScrollView:
+						MDList:
+							id: container
+
+			MDNavigationDrawer:
+				id: nav_drawer
 
 
