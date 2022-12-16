@@ -8,10 +8,9 @@ from kivy.clock import Clock
 import mysql.connector
 
 mydb = mysql.connector.connect(
-        host="sql6.freemysqlhosting.net",
-        user="sql6523636",
-        passwd="YQIBTXeknU",
-        database="sql6523636",
+        host="localhost",
+        user="root",
+        database="pr2",
         port=3306
     )
 
@@ -32,6 +31,7 @@ class ScreenMan(ScreenManager):
     students_ui = ObjectProperty()
     student_radio_button = ObjectProperty()
     teacher_radio_button = ObjectProperty()
+    teachers_ui = ObjectProperty()
     failed = BooleanProperty(False)
     def error_anim(self):
         if mycursor.fetchone() == None:
@@ -54,15 +54,13 @@ class ScreenMan(ScreenManager):
             anim.start(self.loginButton)
             self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
             self.failed = True
-        print("WRONG PASSWORD BITCH")
+        print("Incorrect password. Please try again.")
         return
 
     def login(self):
         try:
             print("LOGGING IN...")
-            print(self.username.text)
-            mycursor.execute(f'SELECT username, password FROM students WHERE username = "{self.username.text}"')
-            print(self.username.text)
+            mycursor.execute(f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
         except:
             anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
             anim.start(self.signupButton)
@@ -72,7 +70,7 @@ class ScreenMan(ScreenManager):
         try:
             if self.password.text == mycursor.fetchone()[1]:
                 print("Login Successful!")
-                self.current = "students_ui"
+                self.current = "teachers_ui"
 
             else:
                 if self.failed == True:
@@ -84,7 +82,7 @@ class ScreenMan(ScreenManager):
                     anim.start(self.loginButton)
                     self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
                     self.failed = True
-                print("WRONG PASSWORD BITCH")
+                print("Incorrect password. Please try again.")
         except:
             self.error_anim()
             
