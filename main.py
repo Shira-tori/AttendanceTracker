@@ -8,10 +8,9 @@ from kivy.clock import Clock
 import mysql.connector
 
 mydb = mysql.connector.connect(
-        host="sql6.freemysqlhosting.net",
-        user="sql6523636",
-        passwd="YQIBTXeknU",
-        database="sql6523636",
+        host="localhost",
+        database="pr2",
+        user="root",
         port=3306
     )
 
@@ -51,12 +50,12 @@ class ScreenMan(ScreenManager):
             anim.start(self.loginButton)
             self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
             self.failed = True
-        print("WRONG PASSWORD BITCH")
+        print("Incorrect password. Please try again.")
         return
 
     def login(self):
         try:
-            mycursor.execute(f"SELECT lrn, password FROM students WHERE lrn = {int(self.lrn.text)}")
+            mycursor.execute(f"SELECT lrn, password FROM teachers_tbl WHERE lrn = {int(self.lrn.text)}")
         except:
             anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
             anim.start(self.signupButton)
@@ -78,7 +77,7 @@ class ScreenMan(ScreenManager):
                     anim.start(self.loginButton)
                     self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
                     self.failed = True
-                print("WRONG PASSWORD BITCH")
+                print("Incorrect password. Please try again.")
         except:
             self.error_anim()
             
