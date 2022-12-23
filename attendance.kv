@@ -20,7 +20,8 @@
 	student_radio_button: student_radio_button
 	teacher_radio_button: teacher_radio_button
 	teachers_ui: teachers_ui
-	strand_list_container: container
+	teachers_home_screen: teachers_home_screen
+	teachers_ui_screen_manager: teachers_ui_screen_manager
 	Screen:
 		id: login_screen
 		name: "login_screen"
@@ -214,16 +215,81 @@
 		name: "teachers_ui"
 		MDNavigationLayout:
 			MDScreenManager:
+				id: teachers_ui_screen_manager
 				MDScreen:
-					MDTopAppBar:
-						title: "Strands"
-						pos_hint: {"top": 1}
-						left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
-					MDScrollView:
-						MDList:
-							id: container
-
+					name: "home"
+					id: teachers_home_screen
+					MDBoxLayout:
+						orientation: "vertical"
+						MDTopAppBar:
+							title: "Strands"
+							pos_hint: {"top": 1}
+							left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+						MDTabs:
+							background_color: "black"
+							tab_indicator_type: "line"
+							adaptive_width: True
+							adaptive_height: True
+							indicator_color: 1, 1, 1, 1
+							Tab:
+								allow_stretch: True				    
+								title: "Home"
+								icon: "home"
+							Tab:
+								allow_stretch: True
+								title: "Notifications"
+								icon: "bell"
+					
 			MDNavigationDrawer:
 				id: nav_drawer
+				MDBoxLayout:
+					orientation: "vertical"
+					spacing: "8dp"
+					padding: "8dp"
+					MDBoxLayout:
+						MDScrollView:
+							MDList:
+								OneLineIconListItem:
+									id: home_list
+									text: "Home"
+									theme_text_color: "Custom"
+									text_color: "white"
+									divider: "Full"
+									divider_color: "black"
+									on_press:
+										nav_drawer.set_state("close")
+										root.teachers_ui_screen_manager.current = "home"
 
+									IconLeftWidgetWithoutTouch:
+										icon: "home"
+								OneLineIconListItem:
+									id: settings_list
+									text: "Settings"
+									theme_text_color: "Custom"
+									text_color: "white"
+									#bg_color: 1, 1, 1, 1
+									divider: "Full"
+									divider_color: "black"
+									#size_hint_x: 1
+									on_press:
+										nav_drawer.set_state("close")
+										teachers_ui_screen_manager.current = "Settings"
+										
+									IconLeftWidgetWithoutTouch:
+										icon: "cog"
+								OneLineIconListItem:
+									id: logout_list
+									text: "Logout"
+									theme_text_color: "Custom"
+									text_color: "red"
+									#bg_color: 1, 1, 1, 1
+									divider: "Full"
+									divider_color: "black"
+									#size_hint_x: 1
+									on_press:
+										on_release: app.stop()
+										
+									IconLeftWidgetWithoutTouch:
+										icon: "logout"
+							
 

@@ -1,10 +1,13 @@
 from kivymd.app import MDApp
 from kivymd.uix.screen import Screen
 from kivymd.uix.screenmanager import ScreenManager
+from kivymd.uix.floatlayout import MDFloatLayout
+from kivymd.uix.tab import MDTabsBase
 from kivymd.uix.label import MDLabel
 from kivy.properties import ObjectProperty, BooleanProperty
 from kivy.animation import Animation, AnimationTransition
 from kivy.clock import Clock
+
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -15,6 +18,9 @@ mydb = mysql.connector.connect(
     )
 
 mycursor = mydb.cursor()
+
+class Tab(MDFloatLayout, MDTabsBase):
+    pass
 
 class ScreenMan(ScreenManager):
     username = ObjectProperty()
