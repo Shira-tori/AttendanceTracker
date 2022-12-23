@@ -110,7 +110,7 @@ class ScreenMan(ScreenManager):
 class AttendanceApp(MDApp):
     def build(self):
         screenMan = ScreenMan()
-        self.theme_cls.theme_style = "Dark"
+        #self.theme_cls.theme_style = "Dark"
         Clock.schedule_interval(screenMan.update, 1.0/60.0)
         return screenMan
 

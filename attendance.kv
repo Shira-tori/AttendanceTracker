@@ -27,6 +27,12 @@
 		name: "login_screen"
 		MDFloatLayout:
 			id: float_layout
+			canvas:
+				Color:
+					rgba: .1326, .3907, .4767, 1
+				Rectangle:
+					pos: self.pos
+					size: self.size
 			MDCheckbox:
 				id: student_radio_button
 				group: 'group'
@@ -226,6 +232,7 @@
 							pos_hint: {"top": 1}
 							left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
 						MDTabs:
+							specific_text_color: 1, 1, 1, 1
 							background_color: "black"
 							tab_indicator_type: "line"
 							adaptive_width: True
