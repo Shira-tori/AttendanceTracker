@@ -83,7 +83,6 @@ class ScreenMan(ScreenManager):
                     return
             mycursor.execute(f'SELECT username, password FROM students_account_tbl WHERE username = "{self.username.text}"')
             for x in mycursor.fetchall():
-                print(x)
                 if self.password.text == x[1]:
                     print("Login Successful!")
                     self.current = "students_ui"
