@@ -1,6 +1,8 @@
 #: import FallOutTransition kivy.uix.screenmanager.FallOutTransition
 #: import Window kivy.core.window.Window
 #: import ScrollEffect kivy.effects.scroll.ScrollEffect
+#: import ZBarCam kivy_garden.zbarcam.ZBarCam
+#:import ZBarSymbol pyzbar.pyzbar.ZBarSymbol
 
 <ScreenMan>:
 	username: username
@@ -72,7 +74,10 @@
 		id: students_ui
 		MDNavigationLayout:
 			MDScreenManager:
+				id: students_screen_man
 				MDScreen:
+					id: students_ui_home
+					name: "students_ui_home"
 					MDBoxLayout:
 						size_hint_y: 1 
 						size_hint_x: 1
@@ -87,7 +92,7 @@
 							title: "Student's Account"
 							md_bg_color: "black"
 							left_action_items: [["menu", lambda x: students_nav_drawer.set_state("open")]]
-							elevation: 15
+							elevation: 3
 				
 						MDFloatLayout:        
 							MDCard:
@@ -113,7 +118,7 @@
 								size: "200dp", "180dp"
 								pos_hint: {"center_x": .5, "center_y": .3}
 								#elevation: 20
-													
+								on_release: students_screen_man.switch_to(students_ui_scanner, direction='left')
 								MDLabel:
 									text: "QR Code Scanner"
 									theme_text_color: "Custom"
@@ -123,6 +128,21 @@
 									bold: True
 									halign: "center"
 									valign: "middle"
+				MDScreen:
+					name: "students_ui_scanner"
+					id: students_ui_scanner
+					MDBoxLayout:
+						orientation: "vertical"
+						MDTopAppBar:
+							title: "Scanner"
+							md_bg_color: "black"
+							left_action_items: [["arrow-left",  lambda x: students_screen_man.switch_to(students_ui_home, direction='right')]]
+							elevation: 3
+						ZBarCam:
+							#TODO: dapat gumamit lng ng camera pag pinindot ung button
+							id: zbarcam
+
+
 			MDNavigationDrawer:
 				id: students_nav_drawer
 	Screen:
