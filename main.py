@@ -17,7 +17,7 @@ mydb = mysql.connector.connect(
         port=3306
     )
 
-mycursor = mydb.cursor()
+mycursor = mydb.cursor(buffered=True)
 
 class Tab(MDFloatLayout, MDTabsBase):
     pass
@@ -35,20 +35,19 @@ class ScreenMan(ScreenManager):
     failed = BooleanProperty(False)
     def login(self):
         print("LOGGING IN...")
-        mycursor.execute(f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
-        if mycursor.fetchone() == None:
-            if self.failed == False:
-                anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
-                anim.start(self.loginButton)
-                self.floatLayout.add_widget(MDLabel(text="Username not found. Please try again", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
-                self.failed = True
-                return
-            else:
-                self.floatLayout.remove_widget(self.floatLayout.children[0])
-                self.floatLayout.add_widget(MDLabel(text="Username not found. Please try again", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
-                return
-        #TO DO: gawan ng code ung sa student na login
         if self.teacher_radio_button.active == True:
+            mycursor.execute(f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
+            if mycursor.fetchone() == None:
+                if self.failed == False:
+                    anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
+                    anim.start(self.loginButton)
+                    self.floatLayout.add_widget(MDLabel(text="Username not found. Please try again", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                    self.failed = True
+                    return
+                else:
+                    self.floatLayout.remove_widget(self.floatLayout.children[0])
+                    self.floatLayout.add_widget(MDLabel(text="Username not found. Please try again", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                    return
             mycursor.execute(f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
             if self.password.text == mycursor.fetchone()[1]:
                 print("Login Successful!")
@@ -71,9 +70,24 @@ class ScreenMan(ScreenManager):
                         return
         else:
             mycursor.execute(f'SELECT username, password FROM students_account_tbl WHERE username = "{self.username.text}"')
-            if self.password.text == mycursor.fetchone()[1]:
-                print("Login Successful!")
-                self.current = "students_ui"
+            if mycursor.fetchone() == None:
+                if self.failed == False:
+                    anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
+                    anim.start(self.loginButton)
+                    self.floatLayout.add_widget(MDLabel(text="Username not found. Please try again", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                    self.failed = True
+                    return
+                else:
+                    self.floatLayout.remove_widget(self.floatLayout.children[0])
+                    self.floatLayout.add_widget(MDLabel(text="Username not found. Please try again", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                    return
+            mycursor.execute(f'SELECT username, password FROM students_account_tbl WHERE username = "{self.username.text}"')
+            for x in mycursor.fetchall():
+                print(x)
+                if self.password.text == x[1]:
+                    print("Login Successful!")
+                    self.current = "students_ui"
+                    break
 
             else:
                 if self.failed == True:
