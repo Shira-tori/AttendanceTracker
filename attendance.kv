@@ -70,58 +70,61 @@
 	Screen:
 		name: "students_ui"
 		id: students_ui
-		BoxLayout:
-			size_hint_y: 1 
-			size_hint_x: 1
-			orientation: "vertical"
-			canvas.before:
-				Color:
-					rgba: .1326, .3907, .4767, 1
-				Rectangle:
-					pos: self.pos
-					size: self.size
-		    
+		MDNavigationLayout:
+			MDScreenManager:
+				MDScreen:
+					MDBoxLayout:
+						size_hint_y: 1 
+						size_hint_x: 1
+						orientation: "vertical"
+						canvas.before:
+							Color:
+								rgba: .1326, .3907, .4767, 1
+							Rectangle:
+								pos: self.pos
+								size: self.size
+						MDTopAppBar:
+							title: "Student's Account"
+							md_bg_color: "black"
+							left_action_items: [["menu", lambda x: students_nav_drawer.set_state("open")]]
+							elevation: 15
+				
+						MDFloatLayout:        
+							MDCard:
+								ripple_behavior: True
+								orientation: "vertical"
+								size_hint: None, None
+								size: "200dp", "180dp"
+								pos_hint: {"center_x": .5, "center_y": .7}
+								MDLabel:
+									text: "Daily QR Code"
+									theme_text_color: "Custom"
+									text_color: "teal"
+									font_size: 40
+									font_name: "Qazz"
+									bold: True
+									halign: "center"
+									valign: "middle"
 
-			MDTopAppBar:
-				title: "Student's Account"
-				md_bg_color: "black"
-				left_action_items: [["menu", lambda x: app.callback()]]
-				elevation: 15
-	   
-			FloatLayout:        
-				MDCard:
-					ripple_behavior: True
-					orientation: "vertical"
-					size_hint: None, None
-					size: "200dp", "180dp"
-					pos_hint: {"center_x": .5, "center_y": .7}
-					MDLabel:
-						text: "Daily QR Code"
-						theme_text_color: "Custom"
-						text_color: "teal"
-						font_size: 40
-						font_name: "Qazz"
-						bold: True
-						halign: "center"
-						valign: "middle"
-
-				MDCard:
-					ripple_behavior: True
-					orientation: "vertical"
-					size_hint: None, None
-					size: "200dp", "180dp"
-					pos_hint: {"center_x": .5, "center_y": .3}
-					#elevation: 20
-										
-					MDLabel:
-						text: "QR Code Scanner"
-						theme_text_color: "Custom"
-						text_color: "teal"
-						font_size: 40
-						font_name: "Qazz"
-						bold: True
-						halign: "center"
-						valign: "middle"
+							MDCard:
+								ripple_behavior: True
+								orientation: "vertical"
+								size_hint: None, None
+								size: "200dp", "180dp"
+								pos_hint: {"center_x": .5, "center_y": .3}
+								#elevation: 20
+													
+								MDLabel:
+									text: "QR Code Scanner"
+									theme_text_color: "Custom"
+									text_color: "teal"
+									font_size: 40
+									font_name: "Qazz"
+									bold: True
+									halign: "center"
+									valign: "middle"
+			MDNavigationDrawer:
+				id: students_nav_drawer
 	Screen:
 		id: teachers_ui
 		name: "teachers_ui"
