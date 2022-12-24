@@ -47,6 +47,7 @@ class ScreenMan(ScreenManager):
                 self.floatLayout.remove_widget(self.floatLayout.children[0])
                 self.floatLayout.add_widget(MDLabel(text="Username not found. Please try again", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
                 return
+        #TO DO: gawan ng code ung sa student na login
         mycursor.execute(f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
         if self.password.text == mycursor.fetchone()[1]:
             print("Login Successful!")
