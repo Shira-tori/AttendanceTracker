@@ -1,0 +1,343 @@
+#: import FallOutTransition kivy.uix.screenmanager.FallOutTransition
+#: import Window kivy.core.window.Window
+#: import ScrollEffect kivy.effects.scroll.ScrollEffect
+
+<ScreenMan>:
+	username: username
+	password: password
+	fullname: fullname
+	section: section
+	grade: grade
+	lrn_register: lrn_register
+	password_register: password_register
+	signup_screen: signup_screen
+	username_register: username_register
+	floatLayout: float_layout
+	signupButton: signupButton
+	loginButton: loginButton
+	transition: FallOutTransition()
+	students_ui: students_ui
+	student_radio_button: student_radio_button
+	teacher_radio_button: teacher_radio_button
+	teachers_ui: teachers_ui
+	teachers_home_screen: teachers_home_screen
+	teachers_ui_screen_manager: teachers_ui_screen_manager
+	Screen:
+		id: login_screen
+		name: "login_screen"
+		MDFloatLayout:
+			id: float_layout
+			orientation: "vertical"
+			canvas:
+				Color:
+					rgba: .1326, .3907, .4767, 1
+				Rectangle:
+					pos: self.pos
+					size: self.size
+			MDCheckbox:
+				id: student_radio_button
+				group: 'group'
+				pos_hint: {"center_x": .142, "center_y": .62}
+				size_hint: None, None
+				size: "45dp", "45dp"
+				active: True
+			MDLabel:
+				text: "Student"
+				font_name: "Muli-Bold"
+				pos_hint: {"x": .170, "center_y": .62}
+				padding_x: 5
+			MDCheckbox:
+				id: teacher_radio_button
+				group: "group"
+				pos_hint: {"center_x": .70, "center_y": .62}
+				size_hint: None, None
+				size: "45dp", "45dp"
+			MDLabel:
+				text: "Teacher"
+				font_name: "Muli-Bold"
+				pos_hint: {"x": .728, "center_y": .62}
+				padding_x: 5
+			MDTextField:
+				id: username
+				hint_text: "Username"
+				font_name: "Muli-Bold"
+				mode: "rectangle"
+				size_hint_x: .75
+				pos_hint: {"center_x": .5, "center_y": .55}
+			MDTextField:
+				id: password
+				hint_text: "Password"
+				font_name: "Muli-Bold"
+				mode: "rectangle"
+				size_hint_x: .75
+				pos_hint: {"center_x": .5, "center_y": .45}
+				required: True
+				password: True
+			MDFlatButton:
+				id: signupButton
+				text: "Sign Up"
+				font_name: "Muli-Bold"
+				size_hint_x: .372
+				pos_hint: {"center_x": .310, "center_y": .35}
+				on_release: root.current = "signup_screen"
+			MDRaisedButton:
+				id: loginButton
+				text: "Login"
+				font_name: "Muli-Bold"
+				size_hint_x: .372
+				pos_hint: {"center_x": .69, "center_y": .35}
+				on_release: root.login()
+	Screen:
+		id: signup_screen
+		name: "signup_screen"
+		ScrollView:
+			always_overscroll: False
+			do_scroll_x: False
+			effect_y: ScrollEffect()
+			MDFloatLayout:
+				size_hint_y: None
+				height: 620
+				canvas:
+					Color:
+						rgba: .1326, .3907, .4767, 1
+					Rectangle:
+						pos: self.pos
+						size: self.size
+				MDTextField:
+					id: fullname 
+					hint_text: "Fullname"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: self.parent.height - self.height + 10
+					required: True
+				MDTextField:
+					id: username_register
+					hint_text: "Username"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: fullname.center_y - self.height - 30
+					required: True
+				MDTextField:
+					id: grade
+					hint_text: "Grade"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: username_register.center_y - self.height - 30
+					required: True
+				MDTextField:
+					id: section
+					hint_text: "Section"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: grade.center_y - self.height - 30
+					required: True
+				MDTextField:
+					id: lrn_register
+					hint_text: "LRN"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: section.center_y - self.height - 30
+					required: True
+				MDTextField:
+					id: password_register
+					hint_text: "Password"
+					mode: "rectangle"
+					size_hint_x: .75
+					pos_hint: {"center_x": .5}
+					center_y: lrn_register.center_y - self.height - 30
+					required: True
+					password: True
+				MDCheckbox:
+					id: student_checkbox
+					group: "register"
+					size_hint: None, None
+					size: "45dp", "45dp"
+					pos_hint: {"x": register_back_button.x}
+					center_y: password_register.center_y - self.height - 30					
+				MDFlatButton:
+					id: register_back_button
+					text: "Back"
+					size_hint_x: .372
+					pos_hint: {"center_x": .31}
+					center_y: student_checkbox.center_y - self.height - 30
+					on_release: root.current = "login_screen"
+				MDRaisedButton:
+					id: register_button
+					text: "Sign Up"
+					size_hint_x: .372
+					pos_hint: {"center_x": .69}
+					center_y: student_checkbox.center_y - self.height - 30
+					on_release: root.register()	
+
+	Screen:
+		name: "students_ui"
+		id: students_ui
+		BoxLayout:
+			size_hint_y: 1 
+			size_hint_x: 1
+			orientation: "vertical"
+			canvas.before:
+				Color:
+					rgba: .1326, .3907, .4767, 1
+				Rectangle:
+					pos: self.pos
+					size: self.size
+			MDTopAppBar:
+				title: "Student's Account"
+				font_name: "Muli-Bold"
+				md_bg_color: "black"
+				left_action_items: [["menu", lambda x: app.callback()]]
+				elevation: 15
+	   
+			FloatLayout:        
+				MDCard:
+					ripple_behavior: True
+					orientation: "vertical"
+					size_hint: None, None
+					size: "200dp", "180dp"
+					pos_hint: {"center_x": .5, "center_y": .7}
+					MDLabel:
+						text: "Daily QR Code"
+						font_name: "Muli-Bold"
+						theme_text_color: "Custom"
+						text_color: "teal"
+						font_size: 40
+						font_name: "Comic"
+						bold: True
+						halign: "center"
+						valign: "middle"
+
+				MDCard:
+					ripple_behavior: True
+					orientation: "vertical"
+					size_hint: None, None
+					size: "200dp", "180dp"
+					pos_hint: {"center_x": .5, "center_y": .3}
+					#elevation: 20
+										
+					MDLabel:
+						text: "QR Code Scanner"
+						font_name: "Muli-Bold"
+						theme_text_color: "Custom"
+						text_color: "teal"
+						font_size: 40
+						font_name: "Comic"
+						bold: True
+						halign: "center"
+						valign: "middle"
+	Screen:
+		id: teachers_ui
+		name: "teachers_ui"
+		MDNavigationLayout:
+			canvas.before:
+				Color:
+					rgba: .1326, .3907, .4767, 1
+				Rectangle:
+					pos: self.pos
+					size: self.size
+			MDScreenManager:
+				id: teachers_ui_screen_manager
+				MDScreen:
+					name: "home"
+					id: teachers_home_screen
+					MDBoxLayout:
+						orientation: "vertical"
+						MDTopAppBar:
+							set_bars_color: True
+							use_overflow: True
+							title: "Home"
+							font_name: "Muli-Bold"
+							pos_hint: {"top": 1}
+							adaptive_height: True
+							adaptive_width: True
+							md_bg_color: "black"
+							elevation: 5
+							left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+						MDTabs:
+							background_color: "black"
+							tab_indicator_type: "line"
+							adaptive_width: True
+							adaptive_height: True
+							indicator_color: 1, 1, 1, 1
+							ripple_duration: 2
+							tab_hint_x: True
+							underline_color: 92/255, 92/255, 92/255, 1
+							elevation: 5
+							Tab:
+								allow_stretch: True				    
+								title: "Home"
+								font_name: "Muli-Bold"
+								icon: "home"
+							Tab:
+								allow_stretch: True
+								title: "Notifications"
+								font_name: "Muli-Bold"
+								icon: "bell"
+					
+			MDNavigationDrawer:
+				id: nav_drawer
+				opening_transition: "out_sine"
+				opening_time: .6
+				closing_transition: "out_sine"
+				closing_time: .6
+				elevation: 5
+				md_bg_color: .1326, .3907, .4767, 1
+				MDBoxLayout:
+					orientation: "vertical"
+					spacing: "8dp"
+					padding: "8dp"
+					MDScrollView:
+						MDList:
+							OneLineIconListItem:
+								id: home_list
+								text: "Home"
+								font_name: "Muli-Bold"
+								theme_text_color: "Custom"
+								text_color: "white"
+								divider: "Full"
+								divider_color: "black"
+								on_press:
+									nav_drawer.set_state("close")
+									root.teachers_ui_screen_manager.current = "home"
+
+								IconLeftWidgetWithoutTouch:
+									icon: "home"
+							OneLineIconListItem:
+								id: settings_list
+								text: "Settings"
+								font_name: "Muli-Bold"
+								theme_text_color: "Custom"
+								text_color: "white"
+								#bg_color: 1, 1, 1, 1
+								divider: "Full"
+								divider_color: "black"
+								#size_hint_x: 1
+								on_press:
+									nav_drawer.set_state("close")
+									teachers_ui_screen_manager.current = "Settings"
+									
+								IconLeftWidgetWithoutTouch:
+									icon: "cog"
+							OneLineIconListItem:
+								id: logout_list
+								text: "Logout"
+								font_name: "Muli-Bold"
+								theme_text_color: "Custom"
+								text_color: "red"
+								#bg_color: 1, 1, 1, 1
+								divider: "Full"
+								divider_color: "black"
+								#size_hint_x: 1
+								on_press:
+									on_release: app.stop()
+									
+								IconLeftWidgetWithoutTouch:
+									icon: "logout"
+										
+							
+
