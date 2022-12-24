@@ -48,26 +48,50 @@ class ScreenMan(ScreenManager):
                 self.floatLayout.add_widget(MDLabel(text="Username not found. Please try again", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
                 return
         #TO DO: gawan ng code ung sa student na login
-        mycursor.execute(f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
-        if self.password.text == mycursor.fetchone()[1]:
-            print("Login Successful!")
-            self.current = "teachers_ui"
+        if self.teacher_radio_button.active == True:
+            mycursor.execute(f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
+            if self.password.text == mycursor.fetchone()[1]:
+                print("Login Successful!")
+                self.current = "teachers_ui"
 
-        else:
-            if self.failed == True:
-                self.floatLayout.remove_widget(self.floatLayout.children[0])
-                self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
             else:
-                if self.failed == False:
-                    anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
-                    anim.start(self.loginButton)
-                    self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
-                    self.failed = True
-                    print("Incorrect password. Please try again.")
-                else:
+                if self.failed == True:
                     self.floatLayout.remove_widget(self.floatLayout.children[0])
                     self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
-                    return
+                else:
+                    if self.failed == False:
+                        anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
+                        anim.start(self.loginButton)
+                        self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                        self.failed = True
+                        print("Incorrect password. Please try again.")
+                    else:
+                        self.floatLayout.remove_widget(self.floatLayout.children[0])
+                        self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                        return
+        else:
+            mycursor.execute(f'SELECT username, password FROM students_account_tbl WHERE username = "{self.username.text}"')
+            if self.password.text == mycursor.fetchone()[1]:
+                print("Login Successful!")
+                self.current = "students_ui"
+
+            else:
+                if self.failed == True:
+                    self.floatLayout.remove_widget(self.floatLayout.children[0])
+                    self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                else:
+                    if self.failed == False:
+                        anim = Animation(pos_hint={"center_y": .3}, d=.5, t='out_back')
+                        anim.start(self.loginButton)
+                        self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                        self.failed = True
+                        print("Incorrect password. Please try again.")
+                    else:
+                        self.floatLayout.remove_widget(self.floatLayout.children[0])
+                        self.floatLayout.add_widget(MDLabel(text="Incorrect password. Please try again.", halign="center", pos_hint={"center_y": .36}, theme_text_color="Error"))
+                        return
+            
+
             
     def update(self, dt):
         if (self.username.text.strip() == "") or (self.password.text.strip() == ""):
