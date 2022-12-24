@@ -1,10 +1,9 @@
 import mysql.connector
 
 mydb = mysql.connector.connect(
-        user='sql6523636',
-        passwd='YQIBTXeknU',
-        host='sql6.freemysqlhosting.net',
-        database='sql6523636',
+        user='root',
+        host='localhost',
+        database='pr2',
         port=3306
     )
 
@@ -14,6 +13,10 @@ mycursor = mydb.cursor()
 #mycursor.execute("DESCRIBE students")
 #mycursor.execute("INSERT INTO students (name, section, grade, lrn, password) VALUES (%s, %s, %s, %s, %s)", ("SEAN DOMINIC FERNANDEZ", "ICT", "12", "136886100309", "hatdog"))
 #mydb.commit()
-mycursor.execute("SELECT * FROM students")
-for x in mycursor:
-    print(x)
+mycursor.execute("SELECT * FROM students_tbl")
+result = mycursor.fetchall()
+
+for x in range(37):
+    mycursor.execute(f"UPDATE students_tbl SET student_id = {x+1} WHERE student_id = {result[x][2]}")
+    mydb.commit()
+    
