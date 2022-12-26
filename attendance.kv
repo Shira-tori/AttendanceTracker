@@ -157,6 +157,55 @@
 
 			MDNavigationDrawer:
 				id: students_nav_drawer
+				MDBoxLayout:
+					orientation: "vertical"
+					spacing: "8dp"
+					padding: "8dp"
+					MDBoxLayout:
+						MDScrollView:
+							MDList:
+								OneLineIconListItem:
+									id: home_list
+									text: "Home"
+									theme_text_color: "Custom"
+									text_color: "black"
+									divider: "Full"
+									divider_color: "black"
+									on_press:
+										nav_drawer.set_state("close")
+										root.teachers_ui_screen_manager.current = "home"
+
+									IconLeftWidgetWithoutTouch:
+										icon: "home"
+								OneLineIconListItem:
+									id: settings_list
+									text: "Settings"
+									theme_text_color: "Custom"
+									text_color: "black"
+									#bg_color: 1, 1, 1, 1
+									divider: "Full"
+									divider_color: "black"
+									#size_hint_x: 1
+									on_press:
+										nav_drawer.set_state("close")
+										teachers_ui_screen_manager.current = "Settings"
+										
+									IconLeftWidgetWithoutTouch:
+										icon: "cog"
+								OneLineIconListItem:
+									id: logout_list
+									text: "Logout"
+									theme_text_color: "Custom"
+									text_color: "black"
+									#bg_color: 1, 1, 1, 1
+									divider: "Full"
+									divider_color: "black"
+									#size_hint_x: 1
+									on_press:
+										on_release: app.stop()
+										
+									IconLeftWidgetWithoutTouch:
+										icon: "logout"
 	Screen:
 		id: teachers_ui
 		name: "teachers_ui"
@@ -201,7 +250,7 @@
 									id: home_list
 									text: "Home"
 									theme_text_color: "Custom"
-									text_color: "white"
+									text_color: "black"
 									divider: "Full"
 									divider_color: "black"
 									on_press:
@@ -214,7 +263,7 @@
 									id: settings_list
 									text: "Settings"
 									theme_text_color: "Custom"
-									text_color: "white"
+									text_color: "black"
 									#bg_color: 1, 1, 1, 1
 									divider: "Full"
 									divider_color: "black"
@@ -229,7 +278,7 @@
 									id: logout_list
 									text: "Logout"
 									theme_text_color: "Custom"
-									text_color: "red"
+									text_color: "black"
 									#bg_color: 1, 1, 1, 1
 									divider: "Full"
 									divider_color: "black"
