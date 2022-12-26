@@ -154,6 +154,12 @@
 
 		MDNavigationDrawer:
 			id: students_nav_drawer
+			opening_transition: "out_sine"
+			opening_time: .6
+			closing_transition: "out_sine"
+			closing_time: .6
+			elevation: 5
+			md_bg_color: .1326, .3907, .4767, 1
 			MDBoxLayout:
 				orientation: "vertical"
 				spacing: "8dp"
@@ -171,31 +177,6 @@
 								on_release:
 									students_nav_drawer.set_state("close")
 									students_screen_man.current = "students_ui_home"
-			MDNavigationDrawer:
-				id: students_nav_drawer
-				opening_transition: "out_sine"
-				opening_time: .6
-				closing_transition: "out_sine"
-				closing_time: .6
-				elevation: 5
-				md_bg_color: .1326, .3907, .4767, 1
-				MDBoxLayout:
-					orientation: "vertical"
-					spacing: "8dp"
-					padding: "8dp"
-					MDBoxLayout:
-						MDScrollView:
-							MDList:
-								OneLineIconListItem:
-									id: home_list
-									text: "Home"
-									theme_text_color: "Custom"
-									text_color: "black"
-									divider: "Full"
-									divider_color: "black"
-									on_press:
-										nav_drawer.set_state("close")
-										root.teachers_ui_screen_manager.current = "home"
 
 								IconLeftWidgetWithoutTouch:
 									icon: "home"
@@ -228,6 +209,34 @@
 									
 								IconLeftWidgetWithoutTouch:
 									icon: "logout"
+				MDScrollView:
+					orientation: 'vertical'
+					canvas:
+						Color:
+							rgb: 1, 1, 1
+						Ellipse:
+							pos: 91, 145
+							size: 146 , 146
+							source: 'alsonado.jpg'
+							angle_start: 0
+							angle_end: 360
+				MDLabel:
+					text: '   ALSONADO, GEAN ANDREI'
+					font_style: 'Subtitle1'
+					size_hint_y: None
+					height: self.texture_size[1]
+
+				MDLabel:
+					text: '   12 - ICT'
+					font_style: 'Subtitle1'
+					size_hint_y: None
+					height: self.texture_size[1]
+
+				MDLabel:
+					text: '   136889100050'
+					font_style: 'Subtitle1'
+					size_hint_y: None
+					height: self.texture_size[1]
 
 <TeachersUI>:
 	id: teachers_ui
@@ -295,8 +304,8 @@
 								on_release:
 									nav_drawer.set_state("close")
 									teachers_ui_screen_manager.current = "home"
-									IconLeftWidgetWithoutTouch:
-										icon: "home"
+								IconLeftWidgetWithoutTouch:
+									icon: "home"
 								OneLineIconListItem:
 									id: settings_list
 									text: "Settings"
@@ -326,135 +335,9 @@
 										
 									IconLeftWidgetWithoutTouch:
 										icon: "logout"
-					MDScrollView:
-						orientation: 'vertical'
-						canvas:
-							Color:
-								rgb: 1, 1, 1
-							Ellipse:
-								pos: 91, 145
-								size: 146 , 146
-								source: 'alsonado.jpg'
-								angle_start: 0
-								angle_end: 360
-					MDLabel:
-						text: '   ALSONADO, GEAN ANDREI'
-						font_style: 'Subtitle1'
-						size_hint_y: None
-						height: self.texture_size[1]
+						
 
-					MDLabel:
-						text: '   12 - ICT'
-						font_style: 'Subtitle1'
-						size_hint_y: None
-						height: self.texture_size[1]
-
-					MDLabel:
-						text: '   136889100050'
-						font_style: 'Subtitle1'
-						size_hint_y: None
-						height: self.texture_size[1]	
-
-	Screen:
-		id: teachers_ui
-		name: "teachers_ui"
-		MDNavigationLayout:
-			MDScreenManager:
-				id: teachers_ui_screen_manager
-				MDScreen:
-					name: "home"
-					id: teachers_home_screen
-					MDBoxLayout:
-						orientation: "vertical"
-						MDTopAppBar:
-							title: "Strands"
-							set_bars_color: True
-							use_overflow: True
-							title: "Home"
-							font_name: "Muli-Bold"
-							pos_hint: {"top": 1}
-							adaptive_height: True
-							adaptive_width: True
-							md_bg_color: "black"
-							elevation: 5
-							left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
-						MDTabs:
-							specific_text_color: 1, 1, 1, 1
-							background_color: "black"
-							tab_indicator_type: "line"
-							adaptive_width: True
-							adaptive_height: True
-							indicator_color: 1, 1, 1, 1
-							ripple_duration: 2
-							tab_hint_x: True
-							underline_color: 92/255, 92/255, 92/255, 1
-							elevation: 5
-							Tab:
-								allow_stretch: True				    
-								title: "Home"
-								icon: "home"
-							Tab:
-								allow_stretch: True
-								title: "Notifications"
-								icon: "bell"
-					
-			MDNavigationDrawer:
-				id: nav_drawer
-				opening_transition: "out_sine"
-				opening_time: .6
-				closing_transition: "out_sine"
-				closing_time: .6
-				elevation: 5
-				md_bg_color: .1326, .3907, .4767, 1
-				MDBoxLayout:
-					orientation: "vertical"
-					spacing: "8dp"
-					padding: "8dp"
-					MDBoxLayout:
-						MDScrollView:
-							MDList:
-								OneLineIconListItem:
-									id: home_list
-									text: "Home"
-									theme_text_color: "Custom"
-									text_color: "black"
-									divider: "Full"
-									divider_color: "black"
-									on_press:
-										nav_drawer.set_state("close")
-										root.teachers_ui_screen_manager.current = "home"
-
-								IconLeftWidgetWithoutTouch:
-									icon: "home"
-							OneLineIconListItem:
-								id: settings_list
-								text: "Settings"
-								theme_text_color: "Custom"
-								text_color: "black"
-								#bg_color: 1, 1, 1, 1
-								divider: "Full"
-								divider_color: "black"
-								#size_hint_x: 1
-								on_release:
-									nav_drawer.set_state("close")
-									teachers_ui_screen_manager.current = "Settings"
-									
-								IconLeftWidgetWithoutTouch:
-									icon: "cog"
-							OneLineIconListItem:
-								id: logout_list
-								text: "Logout"
-								theme_text_color: "Custom"
-								text_color: "black"
-								#bg_color: 1, 1, 1, 1
-								divider: "Full"
-								divider_color: "black"
-								#size_hint_x: 1
-								on_release:
-									on_release: app.stop()
-									
-								IconLeftWidgetWithoutTouch:
-									icon: "logout"
+	
 
 <ScreenMan>:
 	transition: FallOutTransition()
