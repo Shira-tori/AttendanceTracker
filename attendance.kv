@@ -168,9 +168,9 @@
 								text_color: "black"
 								divider: "Full"
 								divider_color: "black"
-								on_release:
-									students_nav_drawer.set_state("close")
-									students_screen_man.current = "students_ui_home"
+								on_press:
+									nav_drawer.set_state("close")
+									root.teachers_ui_screen_manager.current = "home"
 
 								IconLeftWidgetWithoutTouch:
 									icon: "home"
