@@ -150,7 +150,7 @@ class ScreenMan(ScreenManager):
 
     def scanning_qr(self, time):
         if self.zbarcam.symbols:
-            print(self.zbarcam.symbols[0].data)
+            print(str(self.zbarcam.symbols[0].data).strip())
 
     def update(self, dt):
         if (self.username.text.strip() == "") or (self.password.text.strip() == ""):
