@@ -154,6 +154,12 @@
 
 		MDNavigationDrawer:
 			id: students_nav_drawer
+			opening_transition: "out_sine"
+			opening_time: .6
+			closing_transition: "out_sine"
+			closing_time: .6
+			elevation: 5
+			md_bg_color: .1326, .3907, .4767, 1
 			MDBoxLayout:
 				orientation: "vertical"
 				spacing: "8dp"
@@ -203,6 +209,34 @@
 									
 								IconLeftWidgetWithoutTouch:
 									icon: "logout"
+				MDScrollView:
+					orientation: 'vertical'
+					canvas:
+						Color:
+							rgb: 1, 1, 1
+						Ellipse:
+							pos: 91, 145
+							size: 146 , 146
+							source: 'alsonado.jpg'
+							angle_start: 0
+							angle_end: 360
+				MDLabel:
+					text: '   ALSONADO, GEAN ANDREI'
+					font_style: 'Subtitle1'
+					size_hint_y: None
+					height: self.texture_size[1]
+
+				MDLabel:
+					text: '   12 - ICT'
+					font_style: 'Subtitle1'
+					size_hint_y: None
+					height: self.texture_size[1]
+
+				MDLabel:
+					text: '   136889100050'
+					font_style: 'Subtitle1'
+					size_hint_y: None
+					height: self.texture_size[1]
 
 <TeachersUI>:
 	id: teachers_ui
@@ -270,38 +304,40 @@
 								on_release:
 									nav_drawer.set_state("close")
 									teachers_ui_screen_manager.current = "home"
-
 								IconLeftWidgetWithoutTouch:
 									icon: "home"
-							OneLineIconListItem:
-								id: settings_list
-								text: "Settings"
-								theme_text_color: "Custom"
-								text_color: "black"
-								#bg_color: 1, 1, 1, 1
-								divider: "Full"
-								divider_color: "black"
-								#size_hint_x: 1
-								on_release:
-									nav_drawer.set_state("close")
-									teachers_ui_screen_manager.current = "Settings"
-									
-								IconLeftWidgetWithoutTouch:
-									icon: "cog"
-							OneLineIconListItem:
-								id: logout_list
-								text: "Logout"
-								theme_text_color: "Custom"
-								text_color: "black"
-								#bg_color: 1, 1, 1, 1
-								divider: "Full"
-								divider_color: "black"
-								#size_hint_x: 1
-								on_release:
-									on_release: app.stop()
-									
-								IconLeftWidgetWithoutTouch:
-									icon: "logout"
+								OneLineIconListItem:
+									id: settings_list
+									text: "Settings"
+									theme_text_color: "Custom"
+									text_color: "black"
+									#bg_color: 1, 1, 1, 1
+									divider: "Full"
+									divider_color: "black"
+									#size_hint_x: 1
+									on_press:
+										nav_drawer.set_state("close")
+										teachers_ui_screen_manager.current = "Settings"
+										
+									IconLeftWidgetWithoutTouch:
+										icon: "cog"
+								OneLineIconListItem:
+									id: logout_list
+									text: "Logout"
+									theme_text_color: "Custom"
+									text_color: "black"
+									#bg_color: 1, 1, 1, 1
+									divider: "Full"
+									divider_color: "black"
+									#size_hint_x: 1
+									on_press:
+										on_release: app.stop()
+										
+									IconLeftWidgetWithoutTouch:
+										icon: "logout"
+						
+
+	
 
 <ScreenMan>:
 	transition: FallOutTransition()
