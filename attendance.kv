@@ -170,7 +170,15 @@
 						orientation: "vertical"
 						MDTopAppBar:
 							title: "Strands"
+							set_bars_color: True
+							use_overflow: True
+							title: "Home"
+							font_name: "Muli-Bold"
 							pos_hint: {"top": 1}
+							adaptive_height: True
+							adaptive_width: True
+							md_bg_color: "black"
+							elevation: 5
 							left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
 						MDTabs:
 							specific_text_color: 1, 1, 1, 1
@@ -179,6 +187,10 @@
 							adaptive_width: True
 							adaptive_height: True
 							indicator_color: 1, 1, 1, 1
+							ripple_duration: 2
+							tab_hint_x: True
+							underline_color: 92/255, 92/255, 92/255, 1
+							elevation: 5
 							Tab:
 								allow_stretch: True				    
 								title: "Home"
@@ -190,6 +202,12 @@
 					
 			MDNavigationDrawer:
 				id: nav_drawer
+				opening_transition: "out_sine"
+				opening_time: .6
+				closing_transition: "out_sine"
+				closing_time: .6
+				elevation: 5
+				md_bg_color: .1326, .3907, .4767, 1
 				MDBoxLayout:
 					orientation: "vertical"
 					spacing: "8dp"
