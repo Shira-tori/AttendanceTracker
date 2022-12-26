@@ -7,154 +7,170 @@
 #:import Builder kivy.lang.Builder
 #:import Clock kivy.clock.Clock
 
-<ScreenMan>:
+<LoginScreen>:
 	username: username
 	password: password
 	floatLayout: float_layout
 	loginButton: loginButton
 	transition: FallOutTransition()
-	students_ui: students_ui
 	student_radio_button: student_radio_button
 	teacher_radio_button: teacher_radio_button
-	teachers_ui: teachers_ui
-	teachers_home_screen: teachers_home_screen
-	teachers_ui_screen_manager: teachers_ui_screen_manager
-	Screen:
-		id: login_screen
-		name: "login_screen"
-		MDFloatLayout:
-			id: float_layout
-			canvas:
-				Color:
-					rgba: .1326, .3907, .4767, 1
-				Rectangle:
-					pos: self.pos
-					size: self.size
-			MDCheckbox:
-				id: student_radio_button
-				group: 'group'
-				pos_hint: {"center_x": .142, "center_y": .62}
-				size_hint: None, None
-				size: "45dp", "45dp"
-				active: True
-			MDLabel:
-				text: "Student"
-				pos_hint: {"x": .170, "center_y": .62}
-				padding_x: 5
-			MDCheckbox:
-				id: teacher_radio_button
-				group: "group"
-				pos_hint: {"center_x": .70, "center_y": .62}
-				size_hint: None, None
-				size: "45dp", "45dp"
-			MDLabel:
-				text: "Teacher"
-				pos_hint: {"x": .728, "center_y": .62}
-				padding_x: 5
-			MDTextField:
-				id: username
-				hint_text: "Username"
-				mode: "rectangle"
-				size_hint_x: .75
-				pos_hint: {"center_x": .5, "center_y": .55}
-			MDTextField:
-				id: password
-				hint_text: "Password"
-				mode: "rectangle"
-				size_hint_x: .75
-				pos_hint: {"center_x": .5, "center_y": .45}
-				required: True
-				password: True
-			MDRaisedButton:
-				id: loginButton
-				text: "Login"
-				size_hint_x: .75
-				pos_hint: {"center_x": .5, "center_y": .35}
-				on_release: root.login()
+	id: login_screen
+	name: "login_screen"
+	MDFloatLayout:
+		id: float_layout
+		canvas:
+			Color:
+				rgba: .1326, .3907, .4767, 1
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		MDCheckbox:
+			id: student_radio_button
+			group: 'group'
+			pos_hint: {"center_x": .142, "center_y": .62}
+			size_hint: None, None
+			size: "45dp", "45dp"
+			active: True
+		MDLabel:
+			text: "Student"
+			pos_hint: {"x": .170, "center_y": .62}
+			padding_x: 5
+		MDCheckbox:
+			id: teacher_radio_button
+			group: "group"
+			pos_hint: {"center_x": .70, "center_y": .62}
+			size_hint: None, None
+			size: "45dp", "45dp"
+		MDLabel:
+			text: "Teacher"
+			pos_hint: {"x": .728, "center_y": .62}
+			padding_x: 5
+		MDTextField:
+			id: username
+			hint_text: "Username"
+			mode: "rectangle"
+			size_hint_x: .75
+			pos_hint: {"center_x": .5, "center_y": .55}
+		MDTextField:
+			id: password
+			hint_text: "Password"
+			mode: "rectangle"
+			size_hint_x: .75
+			pos_hint: {"center_x": .5, "center_y": .45}
+			required: True
+			password: True
+		MDRaisedButton:
+			id: loginButton
+			text: "Login"
+			size_hint_x: .75
+			pos_hint: {"center_x": .5, "center_y": .35}
+			on_release: root.login()
 
-	Screen:
-		name: "students_ui"
-		id: students_ui
-		MDNavigationLayout:
-			MDScreenManager:
-				id: students_screen_man
-				MDScreen:
-					id: students_ui_home
-					name: "students_ui_home"
-					MDBoxLayout:
-						size_hint_y: 1 
-						size_hint_x: 1
-						orientation: "vertical"
-						canvas.before:
-							Color:
-								rgba: .1326, .3907, .4767, 1
-							Rectangle:
-								pos: self.pos
-								size: self.size
-						MDTopAppBar:
-							title: "Student's Account"
-							md_bg_color: "black"
-							left_action_items: [["menu", lambda x: students_nav_drawer.set_state("open")]]
-							elevation: 3
-				
-						MDFloatLayout:        
-							MDCard:
-								ripple_behavior: True
-								orientation: "vertical"
-								size_hint: None, None
-								size: "200dp", "180dp"
-								pos_hint: {"center_x": .5, "center_y": .7}
-								MDLabel:
-									text: "Daily QR Code"
-									theme_text_color: "Custom"
-									text_color: "teal"
-									font_size: 40
-									font_name: "Qazz"
-									bold: True
-									halign: "center"
-									valign: "middle"
 
-							MDCard:
-								ripple_behavior: True
-								orientation: "vertical"
-								size_hint: None, None
-								size: "200dp", "180dp"
-								pos_hint: {"center_x": .5, "center_y": .3}
-								#elevation: 20
-								on_release: 
-									root.init_zbarcam()
-								MDLabel:
-									text: "QR Code Scanner"
-									theme_text_color: "Custom"
-									text_color: "teal"
-									font_size: 40
-									font_name: "Qazz"
-									bold: True
-									halign: "center"
-									valign: "middle"
-				MDScreen:
-					name: "students_ui_scanner"
-					id: students_ui_scanner
-					on_leave: 
-						scanner_boxlayout.children[0].stop()
-						scanner_boxlayout.children[0].xcamera._camera._device.release()
-						Clock.unschedule(root.scanning_qr, 1)
-					MDBoxLayout:
-						orientation: "vertical"
-						id: scanner_boxlayout
-						canvas:
-							Color:
-								rgba: .1326, .3907, .4767, 1
-							Rectangle:
-								pos: self.pos
-								size: self.size
-						MDTopAppBar:
-							title: "Scanner"
-							md_bg_color: "black"
-							left_action_items: [["arrow-left",  lambda x: students_screen_man.switch_to(students_ui_home, direction='right')]]
-							elevation: 3
-						
+<StudentsUI>:
+	name: "students_ui"
+	id: students_ui
+	on_enter: self.print_shit()
+	MDNavigationLayout:
+		MDScreenManager:
+			id: students_screen_man
+			MDScreen:
+				id: students_ui_home
+				name: "students_ui_home"
+				MDBoxLayout:
+					size_hint_y: 1 
+					size_hint_x: 1
+					orientation: "vertical"
+					canvas.before:
+						Color:
+							rgba: .1326, .3907, .4767, 1
+						Rectangle:
+							pos: self.pos
+							size: self.size
+					MDTopAppBar:
+						title: "Student's Account"
+						md_bg_color: "black"
+						left_action_items: [["menu", lambda x: students_nav_drawer.set_state("open")]]
+						elevation: 3
+			
+					MDFloatLayout:        
+						MDCard:
+							ripple_behavior: True
+							orientation: "vertical"
+							size_hint: None, None
+							size: "200dp", "180dp"
+							pos_hint: {"center_x": .5, "center_y": .7}
+							MDLabel:
+								text: "Daily QR Code"
+								theme_text_color: "Custom"
+								text_color: "teal"
+								font_size: 40
+								font_name: "Qazz"
+								bold: True
+								halign: "center"
+								valign: "middle"
 
+						MDCard:
+							ripple_behavior: True
+							orientation: "vertical"
+							size_hint: None, None
+							size: "200dp", "180dp"
+							pos_hint: {"center_x": .5, "center_y": .3}
+							#elevation: 20
+							on_release: 
+								root.init_zbarcam()
+							MDLabel:
+								text: "QR Code Scanner"
+								theme_text_color: "Custom"
+								text_color: "teal"
+								font_size: 40
+								font_name: "Qazz"
+								bold: True
+								halign: "center"
+								valign: "middle"
+			MDScreen:
+				name: "students_ui_scanner"
+				id: students_ui_scanner
+				on_leave: 
+					scanner_boxlayout.children[0].stop()
+					scanner_boxlayout.children[0].xcamera._camera._device.release()
+					Clock.unschedule(root.scanning_qr, 1)
+				MDBoxLayout:
+					orientation: "vertical"
+					id: scanner_boxlayout
+					canvas:
+						Color:
+							rgba: .1326, .3907, .4767, 1
+						Rectangle:
+							pos: self.pos
+							size: self.size
+					MDTopAppBar:
+						title: "Scanner"
+						md_bg_color: "black"
+						left_action_items: [["arrow-left",  lambda x: students_screen_man.switch_to(students_ui_home, direction='right')]]
+						elevation: 3
+					
+
+		MDNavigationDrawer:
+			id: students_nav_drawer
+			MDBoxLayout:
+				orientation: "vertical"
+				spacing: "8dp"
+				padding: "8dp"
+				MDBoxLayout:
+					MDScrollView:
+						MDList:
+							OneLineIconListItem:
+								id: home_list
+								text: "Home"
+								theme_text_color: "Custom"
+								text_color: "black"
+								divider: "Full"
+								divider_color: "black"
+								on_release:
+									students_nav_drawer.set_state("close")
+									students_screen_man.current = "students_ui_home"
 			MDNavigationDrawer:
 				id: students_nav_drawer
 				opening_transition: "out_sine"
@@ -181,6 +197,104 @@
 										nav_drawer.set_state("close")
 										root.teachers_ui_screen_manager.current = "home"
 
+								IconLeftWidgetWithoutTouch:
+									icon: "home"
+							OneLineIconListItem:
+								id: settings_list
+								text: "Settings"
+								theme_text_color: "Custom"
+								text_color: "black"
+								#bg_color: 1, 1, 1, 1
+								divider: "Full"
+								divider_color: "black"
+								#size_hint_x: 1
+								on_release:
+									students_nav_drawer.set_state("close")
+									students_screen_man.current = "Settings"
+									
+								IconLeftWidgetWithoutTouch:
+									icon: "cog"
+							OneLineIconListItem:
+								id: logout_list
+								text: "Logout"
+								theme_text_color: "Custom"
+								text_color: "black"
+								#bg_color: 1, 1, 1, 1
+								divider: "Full"
+								divider_color: "black"
+								#size_hint_x: 1
+								on_release:
+									root.switch_to(login_screen)	
+									
+								IconLeftWidgetWithoutTouch:
+									icon: "logout"
+
+<TeachersUI>:
+	id: teachers_ui
+	name: "teachers_ui"
+	MDNavigationLayout:
+		MDScreenManager:
+			id: teachers_ui_screen_manager
+			MDScreen:
+				name: "home"
+				id: teachers_home_screen
+				MDBoxLayout:
+					orientation: "vertical"
+					MDTopAppBar:
+						title: "Strands"
+						set_bars_color: True
+						use_overflow: True
+						title: "Home"
+						font_name: "Muli-Bold"
+						pos_hint: {"top": 1}
+						adaptive_height: True
+						adaptive_width: True
+						md_bg_color: "black"
+						elevation: 5
+						left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+					MDTabs:
+						specific_text_color: 1, 1, 1, 1
+						background_color: "black"
+						tab_indicator_type: "line"
+						adaptive_width: True
+						adaptive_height: True
+						indicator_color: 1, 1, 1, 1
+						ripple_duration: 2
+						tab_hint_x: True
+						underline_color: 92/255, 92/255, 92/255, 1
+						elevation: 5
+						Tab:
+							allow_stretch: True				    
+							title: "Home"
+							icon: "home"
+						Tab:
+							allow_stretch: True
+							title: "Notifications"
+							icon: "bell"
+				
+		MDNavigationDrawer:
+			id: nav_drawer
+			opening_transition: "out_sine"
+			closing_transition: "out_sine"
+			elevation: 5
+			md_bg_color: .1326, .3907, .4767, 1
+			MDBoxLayout:
+				orientation: "vertical"
+				spacing: "8dp"
+				padding: "8dp"
+				MDBoxLayout:
+					MDScrollView:
+						MDList:
+							OneLineIconListItem:
+								id: home_list
+								text: "Home"
+								theme_text_color: "Custom"
+								text_color: "black"
+								divider: "Full"
+								divider_color: "black"
+								on_release:
+									nav_drawer.set_state("close")
+									teachers_ui_screen_manager.current = "home"
 									IconLeftWidgetWithoutTouch:
 										icon: "home"
 								OneLineIconListItem:
@@ -310,36 +424,38 @@
 										nav_drawer.set_state("close")
 										root.teachers_ui_screen_manager.current = "home"
 
-									IconLeftWidgetWithoutTouch:
-										icon: "home"
-								OneLineIconListItem:
-									id: settings_list
-									text: "Settings"
-									theme_text_color: "Custom"
-									text_color: "black"
-									#bg_color: 1, 1, 1, 1
-									divider: "Full"
-									divider_color: "black"
-									#size_hint_x: 1
-									on_press:
-										nav_drawer.set_state("close")
-										teachers_ui_screen_manager.current = "Settings"
-										
-									IconLeftWidgetWithoutTouch:
-										icon: "cog"
-								OneLineIconListItem:
-									id: logout_list
-									text: "Logout"
-									theme_text_color: "Custom"
-									text_color: "black"
-									#bg_color: 1, 1, 1, 1
-									divider: "Full"
-									divider_color: "black"
-									#size_hint_x: 1
-									on_press:
-										on_release: app.stop()
-										
-									IconLeftWidgetWithoutTouch:
-										icon: "logout"
-							
+								IconLeftWidgetWithoutTouch:
+									icon: "home"
+							OneLineIconListItem:
+								id: settings_list
+								text: "Settings"
+								theme_text_color: "Custom"
+								text_color: "black"
+								#bg_color: 1, 1, 1, 1
+								divider: "Full"
+								divider_color: "black"
+								#size_hint_x: 1
+								on_release:
+									nav_drawer.set_state("close")
+									teachers_ui_screen_manager.current = "Settings"
+									
+								IconLeftWidgetWithoutTouch:
+									icon: "cog"
+							OneLineIconListItem:
+								id: logout_list
+								text: "Logout"
+								theme_text_color: "Custom"
+								text_color: "black"
+								#bg_color: 1, 1, 1, 1
+								divider: "Full"
+								divider_color: "black"
+								#size_hint_x: 1
+								on_release:
+									on_release: app.stop()
+									
+								IconLeftWidgetWithoutTouch:
+									icon: "logout"
 
+<ScreenMan>:
+	transition: FallOutTransition()
+	LoginScreen:

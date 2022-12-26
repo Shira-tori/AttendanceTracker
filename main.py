@@ -25,7 +25,7 @@ class Tab(MDFloatLayout, MDTabsBase):
     pass
 
 
-class ScreenMan(ScreenManager):
+class LoginScreen(Screen):
     username = ObjectProperty()
     password = ObjectProperty()
     floatLayout = ObjectProperty()
@@ -62,7 +62,8 @@ class ScreenMan(ScreenManager):
                 f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
             if self.password.text == mycursor.fetchone()[1]:
                 print("Login Successful!")
-                self.switch_to(self.teachers_ui)
+                self.parent.add_widget(TeachersUI())
+                self.parent.remove_widget(self)
 
             else:
                 if self.failed == True:
@@ -108,7 +109,8 @@ class ScreenMan(ScreenManager):
             for x in mycursor.fetchall():
                 if self.password.text == x[1]:
                     print("Login Successful!")
-                    self.current = "students_ui"
+                    self.parent.add_widget(StudentsUI())
+                    self.parent.remove_widget(self)
                     break
 
             else:
@@ -133,6 +135,19 @@ class ScreenMan(ScreenManager):
                                                     "center_y": .36}, theme_text_color="Error"))
                         return
 
+    def update(self, dt):
+        if (self.username.text.strip() == "") or (self.password.text.strip() == ""):
+            self.loginButton.disabled = True
+        else:
+            self.loginButton.disabled = False
+
+
+class StudentsUI(Screen):
+    zbarcam = ObjectProperty(None)
+
+    def print_shit(self):
+        print(self.parent.children)
+
     def init_zbarcam(self):
         if not self.zbarcam:
             self.zbarcam = ZBarCam()
@@ -150,20 +165,23 @@ class ScreenMan(ScreenManager):
 
     def scanning_qr(self, time):
         if self.zbarcam.symbols:
-            print(str(self.zbarcam.symbols[0].data).strip())
+            print(self.zbarcam.symbols[0].data.decode())
 
-    def update(self, dt):
-        if (self.username.text.strip() == "") or (self.password.text.strip() == ""):
-            self.loginButton.disabled = True
-        else:
-            self.loginButton.disabled = False
+
+class TeachersUI(Screen):
+    pass
+
+
+class ScreenMan(ScreenManager):
+    pass
 
 
 class AttendanceApp(MDApp):
     def build(self):
         screenMan = ScreenMan()
+        login_screen = LoginScreen()
         # self.theme_cls.theme_style = "Dark"
-        Clock.schedule_interval(screenMan.update, 1.0/60.0)
+        Clock.schedule_interval(login_screen.update, 1.0/60.0)
         return screenMan
 
 
