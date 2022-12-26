@@ -6,6 +6,7 @@ from kivymd.uix.tab import MDTabsBase
 from kivymd.uix.label import MDLabel
 from kivy.properties import ObjectProperty, BooleanProperty
 from kivy.animation import Animation, AnimationTransition
+from kivy_garden.zbarcam import ZBarCam
 from kivy.clock import Clock
 
 import mysql.connector
@@ -34,6 +35,7 @@ class ScreenMan(ScreenManager):
     teacher_radio_button = ObjectProperty()
     teachers_ui = ObjectProperty()
     strand_list_container = ObjectProperty()
+    zbarcam = ObjectProperty(None)
     failed = BooleanProperty(False)
 
     def login(self):
@@ -60,7 +62,7 @@ class ScreenMan(ScreenManager):
                 f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
             if self.password.text == mycursor.fetchone()[1]:
                 print("Login Successful!")
-                self.current = "teachers_ui"
+                self.switch_to(self.teachers_ui)
 
             else:
                 if self.failed == True:
@@ -131,6 +133,25 @@ class ScreenMan(ScreenManager):
                                                     "center_y": .36}, theme_text_color="Error"))
                         return
 
+    def init_zbarcam(self):
+        if not self.zbarcam:
+            self.zbarcam = ZBarCam()
+            self.ids['scanner_boxlayout'].add_widget(self.zbarcam)
+            self.ids['students_screen_man'].switch_to(
+                self.ids['students_ui_scanner'])
+            Clock.schedule_interval(self.scanning_qr, 1)
+        else:
+            self.zbarcam.xcamera._camera.init_camera()
+            self.zbarcam.start()
+            self.ids['students_screen_man'].switch_to(
+                self.ids['students_ui_scanner'], direction='left')
+            Clock.schedule_interval(self.scanning_qr, 1)
+            return
+
+    def scanning_qr(self, time):
+        if self.zbarcam.symbols:
+            print(self.zbarcam.symbols[0].data)
+
     def update(self, dt):
         if (self.username.text.strip() == "") or (self.password.text.strip() == ""):
             self.loginButton.disabled = True
@@ -141,7 +162,7 @@ class ScreenMan(ScreenManager):
 class AttendanceApp(MDApp):
     def build(self):
         screenMan = ScreenMan()
-        #self.theme_cls.theme_style = "Dark"
+        # self.theme_cls.theme_style = "Dark"
         Clock.schedule_interval(screenMan.update, 1.0/60.0)
         return screenMan
 

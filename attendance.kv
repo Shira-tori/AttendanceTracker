@@ -1,8 +1,11 @@
+#:kivy 2.2
 #: import FallOutTransition kivy.uix.screenmanager.FallOutTransition
 #: import Window kivy.core.window.Window
 #: import ScrollEffect kivy.effects.scroll.ScrollEffect
 #: import ZBarCam kivy_garden.zbarcam.ZBarCam
 #:import ZBarSymbol pyzbar.pyzbar.ZBarSymbol
+#:import Builder kivy.lang.Builder
+#:import Clock kivy.clock.Clock
 
 <ScreenMan>:
 	username: username
@@ -118,7 +121,8 @@
 								size: "200dp", "180dp"
 								pos_hint: {"center_x": .5, "center_y": .3}
 								#elevation: 20
-								on_release: students_screen_man.switch_to(students_ui_scanner, direction='left')
+								on_release: 
+									root.init_zbarcam()
 								MDLabel:
 									text: "QR Code Scanner"
 									theme_text_color: "Custom"
@@ -131,16 +135,25 @@
 				MDScreen:
 					name: "students_ui_scanner"
 					id: students_ui_scanner
+					on_leave: 
+						scanner_boxlayout.children[0].stop()
+						scanner_boxlayout.children[0].xcamera._camera._device.release()
+						Clock.unschedule(root.scanning_qr, 1)
 					MDBoxLayout:
 						orientation: "vertical"
+						id: scanner_boxlayout
+						canvas:
+							Color:
+								rgba: .1326, .3907, .4767, 1
+							Rectangle:
+								pos: self.pos
+								size: self.size
 						MDTopAppBar:
 							title: "Scanner"
 							md_bg_color: "black"
 							left_action_items: [["arrow-left",  lambda x: students_screen_man.switch_to(students_ui_home, direction='right')]]
 							elevation: 3
-						ZBarCam:
-							#TODO: dapat gumamit lng ng camera pag pinindot ung button
-							id: zbarcam
+						
 
 			MDNavigationDrawer:
 				id: students_nav_drawer
