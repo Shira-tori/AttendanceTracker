@@ -31,7 +31,6 @@
 			pos_hint: {"center_x": .142, "center_y": .62}
 			size_hint: None, None
 			size: "45dp", "45dp"
-			active: True
 		MDLabel:
 			text: "Student"
 			pos_hint: {"x": .170, "center_y": .62}
@@ -42,6 +41,7 @@
 			pos_hint: {"center_x": .70, "center_y": .62}
 			size_hint: None, None
 			size: "45dp", "45dp"
+			active: True
 		MDLabel:
 			text: "Teacher"
 			pos_hint: {"x": .728, "center_y": .62}
@@ -71,7 +71,6 @@
 <StudentsUI>:
 	name: "students_ui"
 	id: students_ui
-	on_enter: self.print_shit()
 	MDNavigationLayout:
 		MDScreenManager:
 			id: students_screen_man
@@ -342,3 +341,4 @@
 <ScreenMan>:
 	transition: FallOutTransition()
 	LoginScreen:
+	StudentsUI:

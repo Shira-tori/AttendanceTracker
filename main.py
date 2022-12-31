@@ -63,8 +63,8 @@ class LoginScreen(Screen):
             if self.password.text == mycursor.fetchone()[1]:
                 print("Login Successful!")
                 self.parent.add_widget(TeachersUI())
-                self.parent.remove_widget(self)
-
+                self.parent.switch_to(
+                    self.parent.screens[len(self.parent.screens) - 1])
             else:
                 if self.failed == True:
                     self.floatLayout.remove_widget(
@@ -109,8 +109,8 @@ class LoginScreen(Screen):
             for x in mycursor.fetchall():
                 if self.password.text == x[1]:
                     print("Login Successful!")
-                    self.parent.add_widget(StudentsUI())
-                    self.parent.remove_widget(self)
+                    self.parent.switch_to(
+                        self.parent.screens[len(self.parent.screens) - 1])
                     break
 
             else:
@@ -145,9 +145,6 @@ class LoginScreen(Screen):
 class StudentsUI(Screen):
     zbarcam = ObjectProperty(None)
 
-    def print_shit(self):
-        print(self.parent.children)
-
     def init_zbarcam(self):
         if not self.zbarcam:
             self.zbarcam = ZBarCam()
@@ -156,10 +153,10 @@ class StudentsUI(Screen):
                 self.ids['students_ui_scanner'])
             Clock.schedule_interval(self.scanning_qr, 1)
         else:
-            self.zbarcam.xcamera._camera.init_camera()
-            self.zbarcam.start()
             self.ids['students_screen_man'].switch_to(
                 self.ids['students_ui_scanner'], direction='left')
+            self.zbarcam.xcamera._camera.init_camera()
+            self.zbarcam.start()
             Clock.schedule_interval(self.scanning_qr, 1)
             return
 
