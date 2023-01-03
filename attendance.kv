@@ -1,8 +1,8 @@
 #:kivy 2.1
-#: import FallOutTransition kivy.uix.screenmanager.FallOutTransition
-#: import Window kivy.core.window.Window
-#: import ScrollEffect kivy.effects.scroll.ScrollEffect
-#: import ZBarCam kivy_garden.zbarcam.ZBarCam
+#:import FallOutTransition kivy.uix.screenmanager.FallOutTransition
+#:import Window kivy.core.window.Window
+#:import ScrollEffect kivy.effects.scroll.ScrollEffect
+#:import ZBarCam kivy_garden.zbarcam.ZBarCam
 #:import ZBarSymbol pyzbar.pyzbar.ZBarSymbol
 #:import Builder kivy.lang.Builder
 #:import Clock kivy.clock.Clock
@@ -25,6 +25,22 @@
 			Rectangle:
 				pos: self.pos
 				size: self.size
+		MDLabel:
+			text: "Welcome!"
+			halign: "center"
+			font_size: 35
+			font_name: "Muli-Bold"
+			theme_text_color: "Custom"
+			text_color: "#FCCB01"
+			pos_hint: {"center_y": .8}
+		MDLabel:
+			text: "Log in to your account"
+			font_size: 20
+			font_name: "Muli-Bold"
+			theme_text_color: "Custom"
+			text_color: "#BFDFF5" 
+			halign: "center"
+			pos_hint: {"center_y": .73}
 		MDCheckbox:
 			id: student_radio_button
 			group: 'group'
@@ -111,13 +127,15 @@
 					orientation: "vertical"
 					canvas.before:
 						Color:
-							rgba: .1326, .3907, .4767, 1
+							rgba: 11/255, 26/255, 45/255, 1
 						Rectangle:
 							pos: self.pos
 							size: self.size
 					MDTopAppBar:
 						title: "Student's Account"
-						md_bg_color: "black"
+						specific_text_color: "#1C4274"
+						md_bg_color: "#AAE858"
+						anchor_title: "center"
 						left_action_items: [["menu", lambda x: students_nav_drawer.set_state("open")]]
 						elevation: 3
 			
