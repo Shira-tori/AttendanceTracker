@@ -8,8 +8,11 @@ from kivy.properties import ObjectProperty, BooleanProperty
 from kivy.animation import Animation, AnimationTransition
 from kivy_garden.zbarcam import ZBarCam
 from kivy.clock import Clock
+from kivy.core.window import Window
 
 import mysql.connector
+
+Window.size = (360, 640)
 
 mydb = mysql.connector.connect(
     host="localhost",
