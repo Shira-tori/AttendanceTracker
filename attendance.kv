@@ -21,50 +21,78 @@
 		id: float_layout
 		canvas:
 			Color:
-				rgba: .1326, .3907, .4767, 1
+				rgba: 11/255, 26/255, 45/255, 1	
 			Rectangle:
 				pos: self.pos
 				size: self.size
 		MDCheckbox:
 			id: student_radio_button
 			group: 'group'
-			pos_hint: {"center_x": .142, "center_y": .62}
+			color_inactive: "#BFDFF5"
+			color_active: "#FCCB01"
+			pos_hint: {"center_x": .142, "center_y": .63}
 			size_hint: None, None
 			size: "45dp", "45dp"
 		MDLabel:
 			text: "Student"
-			pos_hint: {"x": .170, "center_y": .62}
+			pos_hint: {"x": .170, "center_y": .63}
+			theme_text_color: "Custom"
+			text_color: "#BFDFF5"
+			font_name: "Muli-Bold"
 			padding_x: 5
 		MDCheckbox:
 			id: teacher_radio_button
 			group: "group"
-			pos_hint: {"center_x": .70, "center_y": .62}
+			color_inactive: "#BFDFF5"
+			color_active: "#FCCB01"
+			pos_hint: {"center_x": .70, "center_y": .63}
 			size_hint: None, None
 			size: "45dp", "45dp"
 			active: True
 		MDLabel:
 			text: "Teacher"
-			pos_hint: {"x": .728, "center_y": .62}
+			pos_hint: {"x": .728, "center_y": .63}
+			theme_text_color: "Custom"
+			font_name: "Muli-Bold"
+			text_color: "#BFDFF5"
 			padding_x: 5
 		MDTextField:
 			id: username
 			hint_text: "Username"
+			hint_text_color_normal: "#BFDFF5"
+			line_color_normal: "#BFDFF5"
 			mode: "rectangle"
 			size_hint_x: .75
+			theme_text_color: "Custom"
+			text_color_normal: "#BFDFF5"
+			icon_right: "account" 
+			icon_right_color_normal: "FCCB01"
+			font_name_hint_text: "Muli-Bold"
+			font_name: "Muli-Bold"
 			pos_hint: {"center_x": .5, "center_y": .55}
 		MDTextField:
 			id: password
 			hint_text: "Password"
+			hint_text_color_normal: "#BFDFF5"
+			line_color_normal: "#BFDFF5"
 			mode: "rectangle"
 			size_hint_x: .75
-			pos_hint: {"center_x": .5, "center_y": .45}
+			pos_hint: {"center_x": .5, "center_y": .44}
+			theme_text_color: "Custom"
+			text_color_normal: "#BFDFF5"
+			icon_right: "key" 
+			icon_right_color_normal: "#FCCB01"
+			font_name_hint_text: "Muli-Bold"
+			font_name: "Muli-Bold"
 			required: True
 			password: True
 		MDRaisedButton:
 			id: loginButton
 			text: "Login"
 			size_hint_x: .75
-			pos_hint: {"center_x": .5, "center_y": .35}
+			md_bg_color: "#FCCB01"
+			pos_hint: {"center_x": .5, "center_y": .34}
+			font_name: "Muli-Bold"
 			on_release: root.login()
 
 
