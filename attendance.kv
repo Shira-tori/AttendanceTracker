@@ -25,18 +25,19 @@
 			Rectangle:
 				pos: self.pos
 				size: self.size
+				source: "imgs/bg2.jpg"
 		MDLabel:
 			text: "Welcome!"
 			halign: "center"
 			font_size: 35
-			font_name: "Muli-Bold"
+			font_name: "fonts/Muli-Bold"
 			theme_text_color: "Custom"
 			text_color: "#FCCB01"
 			pos_hint: {"center_y": .8}
 		MDLabel:
 			text: "Log in to your account"
 			font_size: 20
-			font_name: "Muli-Bold"
+			font_name: "fonts/Muli-Bold"
 			theme_text_color: "Custom"
 			text_color: "#BFDFF5" 
 			halign: "center"
@@ -54,7 +55,7 @@
 			pos_hint: {"x": .170, "center_y": .63}
 			theme_text_color: "Custom"
 			text_color: "#BFDFF5"
-			font_name: "Muli-Bold"
+			font_name: "fonts/Muli-Bold"
 			padding_x: 5
 		MDCheckbox:
 			id: teacher_radio_button
@@ -69,7 +70,7 @@
 			text: "Teacher"
 			pos_hint: {"x": .728, "center_y": .63}
 			theme_text_color: "Custom"
-			font_name: "Muli-Bold"
+			font_name: "fonts/Muli-Bold"
 			text_color: "#BFDFF5"
 			padding_x: 5
 		MDTextField:
@@ -83,8 +84,8 @@
 			text_color_normal: "#BFDFF5"
 			icon_right: "account" 
 			icon_right_color_normal: "FCCB01"
-			font_name_hint_text: "Muli-Bold"
-			font_name: "Muli-Bold"
+			font_name_hint_text: "fonts/Muli-Bold"
+			font_name: "fonts/Muli-Bold"
 			pos_hint: {"center_x": .5, "center_y": .55}
 		MDTextField:
 			id: password
@@ -98,8 +99,8 @@
 			text_color_normal: "#BFDFF5"
 			icon_right: "key" 
 			icon_right_color_normal: "#FCCB01"
-			font_name_hint_text: "Muli-Bold"
-			font_name: "Muli-Bold"
+			font_name_hint_text: "fonts/Muli-Bold"
+			font_name: "fonts/Muli-Bold"
 			required: True
 			password: True
 		MDRaisedButton:
@@ -108,7 +109,7 @@
 			size_hint_x: .75
 			md_bg_color: "#FCCB01"
 			pos_hint: {"center_x": .5, "center_y": .34}
-			font_name: "Muli-Bold"
+			font_name: "fonts/Muli-Bold"
 			on_release: root.login()
 
 
@@ -151,7 +152,7 @@
 								theme_text_color: "Custom"
 								text_color: "teal"
 								font_size: 40
-								font_name: "Qazz"
+								font_name: "fonts/Qazz"
 								bold: True
 								halign: "center"
 								valign: "middle"
@@ -170,7 +171,7 @@
 								theme_text_color: "Custom"
 								text_color: "teal"
 								font_size: 40
-								font_name: "Qazz"
+								font_name: "fonts/Qazz"
 								bold: True
 								halign: "center"
 								valign: "middle"
