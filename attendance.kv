@@ -302,11 +302,10 @@
 				MDBoxLayout:
 					orientation: "vertical"
 					MDTopAppBar:
-						title: "Strands"
+						title: "Home"
 						set_bars_color: True
 						use_overflow: True
-						title: "Home"
-						font_name: "Muli-Bold"
+						font_name: "fonts/Muli-Bold"
 						pos_hint: {"top": 1}
 						adaptive_height: True
 						adaptive_width: True
@@ -328,6 +327,60 @@
 							allow_stretch: True				    
 							title: "Home"
 							icon: "home"
+							font_name: "fonts/Muli-Bold"
+							MDFloatLayout:
+								MDCard:
+									ripple_behaviour: True
+									orientation: "vertical"
+									size_hint: None, None
+									size: "280dp", "200dp"
+									pos_hint: {"center_x": .5, "center_y": .7}
+									elevation: 5
+									AsyncImage:
+										id: list
+										source: "list.png"
+										size_hint: (.8, 1)
+										keep_ratio: False
+										allow_stretch: True
+										#size: "140dp", "90dp"
+										pos_hint: {"center_x": .5, "center_y": .5}
+									MDLabel:
+										size_hint: (1, 0.2)					
+										text: "Grade & Sections List"
+										font_name: 'fonts/Muli-Bold'
+										theme_text_color: "Custom"
+										text_color: "teal"
+										font_size: "20dp"
+										bold: True
+										halign: "center"
+										valign: "bottom"
+								MDCard:
+									ripple_behavior: True
+									orientation: "vertical"							
+									size_hint: None, None
+									size: "280dp", "200dp"
+									pos_hint: {"center_x": .5, "center_y": .25}
+									elevation: 5
+									
+									AsyncImage:
+										id: scanner
+										source: "scanner.png"
+										size_hint: (.8, 1)
+										keep_ratio: False
+										allow_stretch: True
+										#size: "140dp", "90dp"
+										pos_hint: {"center_x": .5, "center_y": .5}
+										
+									MDLabel:
+										size_hint: (1, .2)
+										text: "QR Code Scanner"
+										font_name: "fonts/Muli-Bold"
+										theme_text_color: "Custom"                       
+										text_color: "teal"
+										font_size: "20dp"
+										bold: True
+										halign: "center"
+										valign: "bottom"
 						Tab:
 							allow_stretch: True
 							title: "Notifications"
@@ -344,6 +397,7 @@
 				spacing: "8dp"
 				padding: "8dp"
 				MDBoxLayout:
+					orientation: "vertical"
 					MDScrollView:
 						MDList:
 							OneLineIconListItem:
@@ -358,35 +412,35 @@
 									teachers_ui_screen_manager.current = "home"
 								IconLeftWidgetWithoutTouch:
 									icon: "home"
-								OneLineIconListItem:
-									id: settings_list
-									text: "Settings"
-									theme_text_color: "Custom"
-									text_color: "black"
-									#bg_color: 1, 1, 1, 1
-									divider: "Full"
-									divider_color: "black"
-									#size_hint_x: 1
-									on_press:
-										nav_drawer.set_state("close")
-										teachers_ui_screen_manager.current = "Settings"
-										
-									IconLeftWidgetWithoutTouch:
-										icon: "cog"
-								OneLineIconListItem:
-									id: logout_list
-									text: "Logout"
-									theme_text_color: "Custom"
-									text_color: "black"
-									#bg_color: 1, 1, 1, 1
-									divider: "Full"
-									divider_color: "black"
-									#size_hint_x: 1
-									on_press:
-										on_release: app.stop()
-										
-									IconLeftWidgetWithoutTouch:
-										icon: "logout"
+							OneLineIconListItem:
+								id: settings_list
+								text: "Settings"
+								theme_text_color: "Custom"
+								text_color: "black"
+								#bg_color: 1, 1, 1, 1
+								divider: "Full"
+								divider_color: "black"
+								#size_hint_x: 1
+								on_press:
+									nav_drawer.set_state("close")
+									teachers_ui_screen_manager.current = "Settings"
+									
+								IconLeftWidgetWithoutTouch:
+									icon: "cog"
+							OneLineIconListItem:
+								id: logout_list
+								text: "Logout"
+								theme_text_color: "Custom"
+								text_color: "black"
+								#bg_color: 1, 1, 1, 1
+								divider: "Full"
+								divider_color: "black"
+								#size_hint_x: 1
+								on_press:
+									on_release: app.stop()
+									
+								IconLeftWidgetWithoutTouch:
+									icon: "logout"
 						
 
 	
