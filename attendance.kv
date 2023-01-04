@@ -50,6 +50,7 @@
 			pos_hint: {"center_x": .142, "center_y": .63}
 			size_hint: None, None
 			size: "45dp", "45dp"
+			active: True
 		MDLabel:
 			text: "Student"
 			pos_hint: {"x": .170, "center_y": .63}
@@ -65,7 +66,6 @@
 			pos_hint: {"center_x": .70, "center_y": .63}
 			size_hint: None, None
 			size: "45dp", "45dp"
-			active: True
 		MDLabel:
 			text: "Teacher"
 			pos_hint: {"x": .728, "center_y": .63}
@@ -205,7 +205,6 @@
 			opening_time: .6
 			closing_transition: "out_sine"
 			closing_time: .6
-			elevation: 5
 			md_bg_color: .1326, .3907, .4767, 1
 			MDBoxLayout:
 				orientation: "vertical"
@@ -252,7 +251,7 @@
 								divider_color: "black"
 								#size_hint_x: 1
 								on_release:
-									root.switch_to(login_screen)	
+									root.parent.logout()
 									
 								IconLeftWidgetWithoutTouch:
 									icon: "logout"
@@ -457,15 +456,7 @@
 								divider_color: "black"
 								#size_hint_x: 1
 								on_press:
-									on_release: app.stop()
+									on_release: root.parent.logout()
 									
 								IconLeftWidgetWithoutTouch:
 									icon: "logout"
-						
-
-	
-
-<ScreenMan>:
-	transition: FallOutTransition()
-	LoginScreen:
-	StudentsUI:

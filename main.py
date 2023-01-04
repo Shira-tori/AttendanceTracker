@@ -5,6 +5,7 @@ from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.tab import MDTabsBase
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.label import MDLabel
+from kivy.uix.screenmanager import FallOutTransition
 from kivy.properties import ObjectProperty, BooleanProperty
 from kivy.animation import Animation, AnimationTransition
 from kivy_garden.zbarcam import ZBarCam
@@ -14,7 +15,6 @@ from kivy.core.window import Window
 import mysql.connector
 
 Window.size = (360, 640)
-TEACHERS_ID = 0
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -66,13 +66,11 @@ class LoginScreen(Screen):
             mycursor.execute(
                 f'SELECT username, password, teacher_Id FROM teachers_tbl WHERE username = "{self.username.text}"')
             teacher = mycursor.fetchone()
-            print(teacher[2])
             if self.password.text == teacher[1]:
                 print("Login Successful!")
+                global TEACHERS_ID
                 TEACHERS_ID = teacher[2]
-                self.parent.add_widget(TeachersUI())
-                self.parent.switch_to(
-                    self.parent.screens[len(self.parent.screens) - 1])
+                self.parent.login_teachers()
             else:
                 if self.failed == True:
                     self.floatLayout.remove_widget(
@@ -117,10 +115,8 @@ class LoginScreen(Screen):
             for x in mycursor.fetchall():
                 if self.password.text == x[1]:
                     print("Login Successful!")
-                    self.parent.switch_to(
-                        self.parent.screens[len(self.parent.screens) - 1])
+                    self.parent.login_students()
                     break
-
             else:
                 if self.failed == True:
                     self.floatLayout.remove_widget(
@@ -180,9 +176,9 @@ class StudentsUI(Screen):
 
 class TeachersUI(Screen):
     def section_list(self):
+        global TEACHERS_ID
         self.ids["teachers_ui_screen_manager"].switch_to(
             self.ids["teachers_ui_section_list"])
-        print(TEACHERS_ID)
         mycursor.execute(
             f"SELECT * FROM strands_tbl WHERE teachers_Id = {TEACHERS_ID}")
 
@@ -192,13 +188,33 @@ class TeachersUI(Screen):
 
 
 class ScreenMan(ScreenManager):
-    pass
+    def logout(self):
+        self.add_widget(LoginScreen())
+        self.current = "login_screen"
+        Clock.schedule_once(self.debug, 1)
+
+    def login_students(self):
+        self.add_widget(StudentsUI())
+        self.current = "students_ui"
+        Clock.schedule_once(self.debug, 1)
+
+    def login_teachers(self):
+        self.add_widget(TeachersUI())
+        self.current = "teachers_ui"
+        Clock.schedule_once(self.debug, 1)
+
+    def debug(self, dt):
+        self.remove_widget(self.screens[0])
 
 
 class AttendanceApp(MDApp):
+    main_screen_manager = ObjectProperty()
+
     def build(self):
-        screenMan = ScreenMan()
+        screenMan = ScreenMan(transition=FallOutTransition())
+        main_screen_manager = screenMan
         login_screen = LoginScreen()
+        screenMan.add_widget(login_screen)
         # self.theme_cls.theme_style = "Dark"
         Clock.schedule_interval(login_screen.update, 1.0/60.0)
         return screenMan
