@@ -205,17 +205,18 @@ class ScreenMan(ScreenManager):
 
     def debug(self, dt):
         self.remove_widget(self.screens[0])
+        Clock.unschedule(MDApp.get_running_app().login_screen.update, 1.0/60.0)
 
 
 class AttendanceApp(MDApp):
-    main_screen_manager = ObjectProperty()
+    login_screen = ObjectProperty()
 
     def build(self):
         screenMan = ScreenMan(transition=FallOutTransition())
         main_screen_manager = screenMan
         login_screen = LoginScreen()
+        self.login_screen = login_screen
         screenMan.add_widget(login_screen)
-        # self.theme_cls.theme_style = "Dark"
         Clock.schedule_interval(login_screen.update, 1.0/60.0)
         return screenMan
 
