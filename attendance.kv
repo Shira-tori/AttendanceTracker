@@ -21,7 +21,7 @@
 		id: float_layout
 		canvas:
 			Color:
-				rgba: 11/255, 26/255, 45/255, 1	
+				rgba: 11/255, 26/255, 45/255, .9
 			Rectangle:
 				pos: self.pos
 				size: self.size
@@ -133,9 +133,10 @@
 							pos: self.pos
 							size: self.size
 					MDTopAppBar:
+						id: top_bar
 						title: "Student's Account"
 						specific_text_color: "#1C4274"
-						md_bg_color: "#AAE858"
+						md_bg_color: "#FCCB01"
 						anchor_title: "center"
 						left_action_items: [["menu", lambda x: students_nav_drawer.set_state("open")]]
 						elevation: 3
@@ -335,7 +336,7 @@
 									size_hint: None, None
 									size: "280dp", "200dp"
 									pos_hint: {"center_x": .5, "center_y": .7}
-									elevation: 5
+									on_release: root.section_list()
 									AsyncImage:
 										id: list
 										source: "list.png"
@@ -360,7 +361,6 @@
 									size_hint: None, None
 									size: "280dp", "200dp"
 									pos_hint: {"center_x": .5, "center_y": .25}
-									elevation: 5
 									
 									AsyncImage:
 										id: scanner
@@ -385,7 +385,27 @@
 							allow_stretch: True
 							title: "Notifications"
 							icon: "bell"
+			MDScreen:
+				id: teachers_ui_section_list
+				MDBoxLayout:
+					orientation: "vertical"
+					MDTopAppBar:
+						title: "Sections"
+						set_bars_color: True
+						use_overflow: True
+						font_name: "fonts/Muli-Bold"
+						pos_hint: {"top": 1}
+						adaptive_height: True
+						adaptive_width: True
+						md_bg_color: "black"
+						elevation: 5
+						left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+						
+					MDScrollView:
+						MDList:
+							id: teachers_ui_section_list_container
 				
+
 		MDNavigationDrawer:
 			id: nav_drawer
 			opening_transition: "out_sine"

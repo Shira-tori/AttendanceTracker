@@ -16,7 +16,13 @@ mycursor = mydb.cursor()
 mycursor.execute("SELECT * FROM students_tbl")
 result = mycursor.fetchall()
 
-for x in range(37):
-    mycursor.execute(f"UPDATE students_tbl SET student_id = {x+1} WHERE student_id = {result[x][2]}")
-    mydb.commit()
-    
+with open("ICT STUDENTS.txt") as f:
+    for x in f:
+        surname = x.strip().split(", ")
+        if len(surname) == 3:
+            print(surname[0] + ", " + surname[1] + " " + surname[2])
+        else:
+            print(surname[0] + ", " + surname[1]) 
+        #mycursor.execute(f"UPDATE students_tbl SET fullname = {x} WHERE username = {x}")
+        #mydb.commit()
+        

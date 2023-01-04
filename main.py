@@ -3,6 +3,7 @@ from kivymd.uix.screen import Screen
 from kivymd.uix.screenmanager import ScreenManager
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.tab import MDTabsBase
+from kivymd.uix.list import OneLineListItem
 from kivymd.uix.label import MDLabel
 from kivy.properties import ObjectProperty, BooleanProperty
 from kivy.animation import Animation, AnimationTransition
@@ -13,6 +14,7 @@ from kivy.core.window import Window
 import mysql.connector
 
 Window.size = (360, 640)
+TEACHERS_ID = 0
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -62,9 +64,12 @@ class LoginScreen(Screen):
                                                 "center_y": .36}, theme_text_color="Error"))
                     return
             mycursor.execute(
-                f'SELECT username, password FROM teachers_tbl WHERE username = "{self.username.text}"')
-            if self.password.text == mycursor.fetchone()[1]:
+                f'SELECT username, password, teacher_Id FROM teachers_tbl WHERE username = "{self.username.text}"')
+            teacher = mycursor.fetchone()
+            print(teacher[2])
+            if self.password.text == teacher[1]:
                 print("Login Successful!")
+                TEACHERS_ID = teacher[2]
                 self.parent.add_widget(TeachersUI())
                 self.parent.switch_to(
                     self.parent.screens[len(self.parent.screens) - 1])
@@ -143,6 +148,11 @@ class LoginScreen(Screen):
             self.loginButton.disabled = True
         else:
             self.loginButton.disabled = False
+        try:
+            self.parent.screens[len(
+                self.parent.screens) - 1].ids["top_bar"].ids["label_title"].halign = "center"
+        except:
+            pass
 
 
 class StudentsUI(Screen):
@@ -169,7 +179,16 @@ class StudentsUI(Screen):
 
 
 class TeachersUI(Screen):
-    pass
+    def section_list(self):
+        self.ids["teachers_ui_screen_manager"].switch_to(
+            self.ids["teachers_ui_section_list"])
+        print(TEACHERS_ID)
+        mycursor.execute(
+            f"SELECT * FROM strands_tbl WHERE teachers_Id = {TEACHERS_ID}")
+
+        for x in mycursor.fetchall():
+            self.ids["teachers_ui_section_list_container"].add_widget(
+                OneLineListItem(text=x[0]))
 
 
 class ScreenMan(ScreenManager):
