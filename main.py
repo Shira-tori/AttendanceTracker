@@ -1,4 +1,5 @@
 import qrcode
+import os
 from kivymd.app import MDApp
 from kivymd.uix.screen import Screen
 from kivymd.uix.screenmanager import ScreenManager
@@ -114,10 +115,12 @@ class LoginScreen(Screen):
                                                 "center_y": .36}, theme_text_color="Error"))
                     return
             mycursor.execute(
-                f'SELECT username, password FROM students_account_tbl WHERE username = "{self.username.text}"')
+                f'SELECT username, password, fullname FROM students_account_tbl WHERE username = "{self.username.text}"')
             for x in mycursor.fetchall():
                 if self.password.text == x[1]:
                     print("Login Successful!")
+                    global STUDENT_FULLNAME
+                    STUDENT_FULLNAME = x[2]
                     self.parent.login_students()
                     break
             else:
@@ -193,19 +196,6 @@ class StudentsUI(Screen):
                 Clock.unschedule(self.scanning_qr, 1)
 
 
-qr = qrcode.QRCode(
-    version=1,
-    error_correction=qrcode.constants.ERROR_CORRECT_L,
-    box_size=10,
-    border=4,
-)
-qr.add_data("A Student is Present")
-qr.make(fit=True)
-
-img = qr.make_image(fill_color="black", back_color="white")
-img.save("attendance.png")
-
-
 class TeachersUI(Screen):
     def section_list(self):
         global TEACHERS_ID
@@ -222,11 +212,22 @@ class TeachersUI(Screen):
 
 class ScreenMan(ScreenManager):
     def logout(self):
+        global TEACHERS_ID
+        global STUDENT_FULLNAME
+        TEACHERS_ID = None
+        STUDENT_FULLNAME = None
         self.add_widget(LoginScreen())
         self.current = "login_screen"
+        if os.path.isfile("qrcode.png"):
+            os.remove("qrcode.png")
         Clock.schedule_once(self.debug, 1)
 
     def login_students(self):
+        global STUDENT_FULLNAME
+        if STUDENT_FULLNAME:
+            qrcode_img = qrcode.make(STUDENT_FULLNAME)
+            type(qrcode_img)
+            qrcode_img.save("qrcode.png")
         students_ui = StudentsUI()
         self.add_widget(students_ui)
         self.current = "students_ui"
@@ -246,12 +247,15 @@ class AttendanceApp(MDApp):
 
     def build(self):
         screenMan = ScreenMan(transition=FallOutTransition())
-        main_screen_manager = screenMan
         login_screen = LoginScreen()
         self.login_screen = login_screen
         screenMan.add_widget(login_screen)
         Clock.schedule_interval(login_screen.update, 1.0/60.0)
         return screenMan
+
+    def on_stop(self):
+        if os.path.isfile("qrcode.png"):
+            os.remove("qrcode.png")
 
 
 if __name__ == '__main__':
