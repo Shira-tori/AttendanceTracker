@@ -142,35 +142,21 @@
 						left_action_items: [["menu", lambda x: students_nav_drawer.set_state("open")]]
 						elevation: 3
 					MDTabs:
+						id: students_ui_tabs
 						background_color: rgba(1,1,1,0)
 						tab_hint_x: True
+						on_tab_switch: root.check_tabs()
+						lock_swiping: True
 						Tab:
+							id: qr_code_tab
 							title: "My QR Code"
+							Image:
+								source: "attendance.png"
 						Tab:
+							id: qr_scanner_tab
 							title: "QR Code Scanner"	
-
-			MDScreen:
-				name: "students_ui_scanner"
-				id: students_ui_scanner
-				on_leave: 
-					scanner_boxlayout.children[0].stop()
-					scanner_boxlayout.children[0].xcamera._camera._device.release()
-					Clock.unschedule(root.scanning_qr, 1)
-				MDBoxLayout:
-					orientation: "vertical"
-					id: scanner_boxlayout
-					canvas:
-						Color:
-							rgba: .1326, .3907, .4767, 1
-						Rectangle:
-							pos: self.pos
-							size: self.size
-					MDTopAppBar:
-						title: "Scanner"
-						md_bg_color: "black"
-						left_action_items: [["arrow-left",  lambda x: students_screen_man.switch_to(students_ui_home, direction='right')]]
-						elevation: 3
-					
+							MDBoxLayout:
+								id: qr_scanner_tab_boxlayout
 
 		MDNavigationDrawer:
 			id: students_nav_drawer

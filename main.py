@@ -1,3 +1,4 @@
+import qrcode
 from kivymd.app import MDApp
 from kivymd.uix.screen import Screen
 from kivymd.uix.screenmanager import ScreenManager
@@ -11,6 +12,8 @@ from kivy.animation import Animation, AnimationTransition
 from kivy_garden.zbarcam import ZBarCam
 from kivy.clock import Clock
 from kivy.core.window import Window
+from kivy_garden.xcamera.platform_api import PORTRAIT, set_orientation
+from kivy.uix.image import Image
 
 import mysql.connector
 
@@ -168,6 +171,40 @@ class StudentsUI(Screen):
         if self.zbarcam.symbols:
             print(self.zbarcam.symbols[0].data.decode())
 
+    def check_tabs(self):
+        if self.ids["students_ui_tabs"].get_current_tab() == self.ids["qr_code_tab"]:
+            if len(self.ids["qr_scanner_tab_boxlayout"].children) == 0:
+                zbar = ZBarCam()
+                self.ids["qr_scanner_tab_boxlayout"].add_widget(zbar)
+                self.zbarcam = zbar
+                Clock.schedule_interval(self.scanning_qr, 1)
+            else:
+                self.ids["qr_scanner_tab_boxlayout"].children[0].start()
+                self.ids["qr_scanner_tab_boxlayout"].children[0].xcamera._camera.init_camera()
+                self.ids["qr_scanner_tab_boxlayout"].children[0].xcamera.resolution = (
+                    360, 640)
+                Clock.schedule_interval(self.scanning_qr, 1)
+
+        else:
+            if len(self.ids["qr_scanner_tab_boxlayout"].children) != 0:
+                self.ids["qr_scanner_tab_boxlayout"].children[0].stop()
+                self.ids["qr_scanner_tab_boxlayout"].children[0].xcamera._camera._device.release(
+                )
+                Clock.unschedule(self.scanning_qr, 1)
+
+
+qr = qrcode.QRCode(
+    version=1,
+    error_correction=qrcode.constants.ERROR_CORRECT_L,
+    box_size=10,
+    border=4,
+)
+qr.add_data("A Student is Present")
+qr.make(fit=True)
+
+img = qr.make_image(fill_color="black", back_color="white")
+img.save("attendance.png")
+
 
 class TeachersUI(Screen):
     def section_list(self):
@@ -190,7 +227,8 @@ class ScreenMan(ScreenManager):
         Clock.schedule_once(self.debug, 1)
 
     def login_students(self):
-        self.add_widget(StudentsUI())
+        students_ui = StudentsUI()
+        self.add_widget(students_ui)
         self.current = "students_ui"
         Clock.schedule_once(self.debug, 1)
 
