@@ -128,10 +128,11 @@
 					orientation: "vertical"
 					canvas.before:
 						Color:
-							rgba: 11/255, 26/255, 45/255, 1
+							rgba: 11/255, 26/255, 45/255, .9
 						Rectangle:
 							pos: self.pos
 							size: self.size
+							source: "imgs/bg2.jpg"
 					MDTopAppBar:
 						id: top_bar
 						title: "Student's Account"
@@ -297,7 +298,7 @@
 		MDScreenManager:
 			id: teachers_ui_screen_manager
 			MDScreen:
-				name: "home"
+				name: "teachers_ui_home"
 				id: teachers_home_screen
 				MDBoxLayout:
 					orientation: "vertical"
@@ -397,8 +398,7 @@
 						adaptive_height: True
 						adaptive_width: True
 						md_bg_color: "black"
-						elevation: 5
-						left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+						left_action_items: [["arrow-left", lambda x: teachers_ui_screen_manager.switch_to(teachers_home_screen, direction='right')]]
 						
 					MDScrollView:
 						MDList:

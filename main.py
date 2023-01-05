@@ -144,11 +144,6 @@ class LoginScreen(Screen):
             self.loginButton.disabled = True
         else:
             self.loginButton.disabled = False
-        try:
-            self.parent.screens[len(
-                self.parent.screens) - 1].ids["top_bar"].ids["label_title"].halign = "center"
-        except:
-            pass
 
 
 class StudentsUI(Screen):
@@ -178,13 +173,14 @@ class TeachersUI(Screen):
     def section_list(self):
         global TEACHERS_ID
         self.ids["teachers_ui_screen_manager"].switch_to(
-            self.ids["teachers_ui_section_list"])
+            self.ids["teachers_ui_section_list"], direction='left')
         mycursor.execute(
             f"SELECT * FROM strands_tbl WHERE teachers_Id = {TEACHERS_ID}")
-
-        for x in mycursor.fetchall():
-            self.ids["teachers_ui_section_list_container"].add_widget(
-                OneLineListItem(text=x[0]))
+        print(len(self.ids["teachers_ui_section_list_container"].children))
+        if len(self.ids["teachers_ui_section_list_container"].children) == 0:
+            for x in mycursor.fetchall():
+                self.ids["teachers_ui_section_list_container"].add_widget(
+                    OneLineListItem(text=x[0]))
 
 
 class ScreenMan(ScreenManager):
@@ -192,6 +188,7 @@ class ScreenMan(ScreenManager):
         self.add_widget(LoginScreen())
         self.current = "login_screen"
         Clock.schedule_once(self.debug, 1)
+        Clock.schedule_interval(self.children[0].update, 1.0/60.0)
 
     def login_students(self):
         self.add_widget(StudentsUI())
@@ -205,7 +202,6 @@ class ScreenMan(ScreenManager):
 
     def debug(self, dt):
         self.remove_widget(self.screens[0])
-        Clock.unschedule(MDApp.get_running_app().login_screen.update, 1.0/60.0)
 
 
 class AttendanceApp(MDApp):
