@@ -188,7 +188,6 @@ class ScreenMan(ScreenManager):
         self.add_widget(LoginScreen())
         self.current = "login_screen"
         Clock.schedule_once(self.debug, 1)
-        Clock.schedule_interval(self.children[0].update, 1.0/60.0)
 
     def login_students(self):
         self.add_widget(StudentsUI())

@@ -141,42 +141,14 @@
 						anchor_title: "center"
 						left_action_items: [["menu", lambda x: students_nav_drawer.set_state("open")]]
 						elevation: 3
-			
-					MDFloatLayout:        
-						MDCard:
-							ripple_behavior: True
-							orientation: "vertical"
-							size_hint: None, None
-							size: "200dp", "180dp"
-							pos_hint: {"center_x": .5, "center_y": .7}
-							MDLabel:
-								text: "Daily QR Code"
-								theme_text_color: "Custom"
-								text_color: "teal"
-								font_size: 40
-								font_name: "fonts/Qazz"
-								bold: True
-								halign: "center"
-								valign: "middle"
+					MDTabs:
+						background_color: rgba(1,1,1,0)
+						tab_hint_x: True
+						Tab:
+							title: "My QR Code"
+						Tab:
+							title: "QR Code Scanner"	
 
-						MDCard:
-							ripple_behavior: True
-							orientation: "vertical"
-							size_hint: None, None
-							size: "200dp", "180dp"
-							pos_hint: {"center_x": .5, "center_y": .3}
-							#elevation: 20
-							on_release: 
-								root.init_zbarcam()
-							MDLabel:
-								text: "QR Code Scanner"
-								theme_text_color: "Custom"
-								text_color: "teal"
-								font_size: 40
-								font_name: "fonts/Qazz"
-								bold: True
-								halign: "center"
-								valign: "middle"
 			MDScreen:
 				name: "students_ui_scanner"
 				id: students_ui_scanner
