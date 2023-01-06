@@ -1,5 +1,6 @@
 import qrcode
 import os
+import datetime
 from kivymd.app import MDApp
 from kivymd.uix.screen import Screen
 from kivymd.uix.screenmanager import ScreenManager
@@ -14,7 +15,6 @@ from kivy_garden.zbarcam import ZBarCam
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy_garden.xcamera.platform_api import PORTRAIT, set_orientation
-from kivy.uix.image import Image
 
 import mysql.connector
 
@@ -121,6 +121,7 @@ class LoginScreen(Screen):
                     print("Login Successful!")
                     global STUDENT_FULLNAME
                     STUDENT_FULLNAME = x[2]
+                    print(x[2])
                     self.parent.login_students()
                     break
             else:
@@ -172,7 +173,26 @@ class StudentsUI(Screen):
 
     def scanning_qr(self, time):
         if self.zbarcam.symbols:
-            print(self.zbarcam.symbols[0].data.decode())
+            data = self.zbarcam.symbols[0].data.decode()
+            try:
+                data = data.split(":")
+
+            except:
+                print("Error")
+
+            if data[1] == "HATDOG":
+                global STUDENT_FULLNAME
+                now = datetime.datetime.now()
+                date = now.strftime("%Y-%m-%d")
+                fullname = STUDENT_FULLNAME.strip("\n")
+                print(fullname)
+                mycursor.execute(
+                    f'SELECT student_id FROM students_tbl WHERE name = "{STUDENT_FULLNAME}"')
+                student_id = mycursor.fetchone()
+                print(student_id)
+                mycursor.execute(
+                    "INSERT INTO attendance_tbl (date, student_id) VALUES (%s, %s)", (date, student_id[0]))
+                mydb.commit()
 
     def check_tabs(self):
         if self.ids["students_ui_tabs"].get_current_tab() == self.ids["qr_code_tab"]:
@@ -212,34 +232,33 @@ class TeachersUI(Screen):
 
 class ScreenMan(ScreenManager):
     def logout(self):
-        global TEACHERS_ID
-        global STUDENT_FULLNAME
-        TEACHERS_ID = None
-        STUDENT_FULLNAME = None
         self.add_widget(LoginScreen())
         self.current = "login_screen"
         if os.path.isfile("qrcode.png"):
             os.remove("qrcode.png")
-        Clock.schedule_once(self.debug, 1)
+        Clock.schedule_once(self.debug, .5)
 
     def login_students(self):
         global STUDENT_FULLNAME
+        print(STUDENT_FULLNAME)
         if STUDENT_FULLNAME:
-            qrcode_img = qrcode.make(STUDENT_FULLNAME)
+            qrcode_img = qrcode.make(STUDENT_FULLNAME + ":HATDOG")
+            print(STUDENT_FULLNAME)
             type(qrcode_img)
             qrcode_img.save("qrcode.png")
-        students_ui = StudentsUI()
-        self.add_widget(students_ui)
+        self.add_widget(StudentsUI())
         self.current = "students_ui"
-        Clock.schedule_once(self.debug, 1)
+        Clock.schedule_once(self.debug, .5)
 
     def login_teachers(self):
         self.add_widget(TeachersUI())
         self.current = "teachers_ui"
-        Clock.schedule_once(self.debug, 1)
+        Clock.schedule_once(self.debug, .5)
 
     def debug(self, dt):
+        print(self.screens)
         self.remove_widget(self.screens[0])
+        print(self.screens)
 
 
 class AttendanceApp(MDApp):

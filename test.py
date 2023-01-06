@@ -17,17 +17,22 @@ mycursor.execute("SELECT * FROM students_tbl")
 result = mycursor.fetchall()
 
 with open("ICT STUDENTS.txt") as f:
+
+    i = 1
     for x in f:
         surname = x.strip().split(", ")
         if len(surname) == 3:
             fullname = surname[0] + ", " + surname[1] + " " + surname[2]
             password = surname[1] + " " + surname[2]
+            print(i)
             mycursor.execute(
-                f"UPDATE students_account_tbl SET fullname = '{fullname}' WHERE username = '{surname[0]}' AND password = '{password}'")
+                f"UPDATE students_tbl SET NAME = '{fullname}' WHERE student_id = {i}")
         else:
             fullname = surname[0] + ", " + surname[1]
+            print(i)
             mycursor.execute(
-                f"UPDATE students_account_tbl SET fullname = '{fullname}' WHERE username = '{surname[0]}'")
+                f"UPDATE students_tbl SET NAME = '{fullname}' WHERE student_id = {i}")
+        i += 1
         mydb.commit()
         # mycursor.execute(f"UPDATE students_tbl SET fullname = {x} WHERE username = {x}")
         # mydb.commit()
