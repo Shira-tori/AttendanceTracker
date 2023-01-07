@@ -21,8 +21,9 @@ import mysql.connector
 Window.size = (360, 640)
 
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
+    host="192.168.0.34",
+    user="group2",
+    password="group2",
     database="pr2",
     port=3306
 )
