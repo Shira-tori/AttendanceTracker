@@ -29,7 +29,7 @@
 		MDLabel:
 			text: "Welcome!"
 			halign: "center"
-			font_size: 35
+			font_size: "35dp"
 			font_name: "fonts/Muli-Bold"
 			theme_text_color: "Custom"
 			text_color: "#FCCB01"
@@ -247,6 +247,7 @@
 					height: self.texture_size[1]
 
 <TeachersUI>:
+	teachers_home_screen: teachers_home_screen.__self__
 	id: teachers_ui
 	name: "teachers_ui"
 	MDNavigationLayout:
@@ -259,6 +260,7 @@
 		MDScreenManager:
 			id: teachers_ui_screen_manager
 			MDScreen:
+				
 				name: "teachers_ui_home"
 				id: teachers_home_screen
 				MDBoxLayout:
@@ -360,12 +362,67 @@
 						adaptive_width: True
 						md_bg_color: "black"
 						left_action_items: [["arrow-left", lambda x: teachers_ui_screen_manager.switch_to(teachers_home_screen, direction='right')]]
-						
 					MDScrollView:
 						MDList:
 							id: teachers_ui_section_list_container
-				
 
+			MDScreen:
+				id: teachers_ui_attendance_list
+				name: "teachers_ui_attendance_list"
+				MDBoxLayout:
+					orientation: "vertical"
+					MDTopAppBar:
+						id: teachers_ui_attendance_list_top_app_bar
+						pos_hint: {"top": 1}
+						set_bars_color: True
+						use_overflow: True
+						font_name: "fonts/Muli-Bold"
+						adaptive_height: True
+						adaptive_width: True
+						md_bg_color: "black"
+						left_action_items: [["arrow-left", lambda x: teachers_ui_screen_manager.switch_to(teachers_ui_section_list, direction='right')]]	
+
+					MDTabs:
+						specific_text_color: 1, 1, 1, 1
+						background_color: "black"
+						tab_indicator_type: "line"
+						adaptive_width: True
+						adaptive_height: True
+						indicator_color: 1, 1, 1, 1
+						ripple_duration: 2
+						tab_hint_x: True
+						underline_color: 92/255, 92/255, 92/255, 1
+						elevation: 5
+						Tab:
+							allow_stretch: True				    
+							title: "STUDENTS LIST"
+							icon: "home"
+							font_name: "fonts/Muli-Bold"
+							MDScrollView:
+								MDList:
+									id: teachers_ui_attendance_list_container
+
+						Tab:
+							allow_stretch: True				    
+							title: "PRESENT"
+							icon: "home"
+							font_name: "fonts/Muli-Bold"
+							MDScrollView:
+								MDList:
+									id: teachers_ui_attendance_list_present_container
+	
+						Tab:
+							allow_stretch: True				    
+							title: "ABSENT"
+							icon: "home"
+							font_name: "fonts/Muli-Bold"
+							MDScrollView:
+								MDList:
+									id: teachers_ui_attendance_list_absent_container
+
+	
+	
+					
 		MDNavigationDrawer:
 			id: nav_drawer
 			opening_transition: "out_sine"
