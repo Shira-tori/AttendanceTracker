@@ -9,22 +9,25 @@ from kivymd.uix.tab import MDTabsBase
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.label import MDLabel
 from kivy.uix.screenmanager import FallOutTransition
-from kivy.properties import ObjectProperty, BooleanProperty
+from kivy.properties import ObjectProperty, BooleanProperty, StringProperty
 from kivy.animation import Animation, AnimationTransition
 from kivy_garden.zbarcam import ZBarCam
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy_garden.xcamera.platform_api import PORTRAIT, set_orientation
 
+import socket
 import mysql.connector
+import netifaces
 
 Window.size = (360, 640)
 
+
 mydb = mysql.connector.connect(
-    host="192.168.0.34",
-    user="group2",
-    password="group2",
-    database="pr2",
+    host="sql6.freemysqlhosting.net",
+    user="sql6588996",
+    password="S9DPyTQx87",
+    database="sql6588996",
     port=3306
 )
 
@@ -185,10 +188,10 @@ class StudentsUI(Screen):
                 global STUDENT_FULLNAME
                 now = datetime.datetime.now()
                 date = now.strftime("%Y-%m-%d")
-                fullname = STUDENT_FULLNAME.strip("\n")
+                fullname = data[0].strip()
                 print(fullname)
                 mycursor.execute(
-                    f'SELECT student_id FROM students_tbl WHERE name = "{STUDENT_FULLNAME}"')
+                    f'SELECT student_id FROM students_tbl WHERE name = "{fullname}"')
                 student_id = mycursor.fetchone()
                 print(student_id)
                 mycursor.execute(
@@ -228,7 +231,36 @@ class TeachersUI(Screen):
         if len(self.ids["teachers_ui_section_list_container"].children) == 0:
             for x in mycursor.fetchall():
                 self.ids["teachers_ui_section_list_container"].add_widget(
+                    OneLineListItem(text=x[0], on_release=self.change_to_attendance_list))
+
+    def change_to_attendance_list(self, x):
+        print(x.text)
+        self.ids["teachers_ui_screen_manager"].switch_to(
+            self.ids["teachers_ui_attendance_list"], direction="left")
+        self.ids["teachers_ui_attendance_list_top_app_bar"].title = x.text
+        mycursor.execute(
+            f'SELECT name FROM students_tbl INNER JOIN attendance_tbl ON attendance_tbl.student_id = students_tbl.student_id INNER JOIN strands_tbl ON students_tbl.strands_id = strands_tbl.strands_id WHERE attendance_tbl.student_id = students_tbl.student_id AND (SELECT STRAND FROM strands_tbl WHERE students_tbl.strands_id = strands_tbl.strands_id) = "{x.text}"')
+        if len(self.ids["teachers_ui_attendance_list_present_container"].children) == 0:
+            for x in mycursor.fetchall():
+                self.ids["teachers_ui_attendance_list_present_container"].add_widget(
                     OneLineListItem(text=x[0]))
+
+        if len(self.ids["teachers_ui_attendance_list_absent_container"].children) == 0:
+            for y in self.ids["teachers_ui_attendance_list_present_container"].children:
+                print(y.text)
+                mycursor.execute(f'SELECT name FROM students_tbl')
+                for x in mycursor.fetchall():
+                    if not x[0] == y.text:
+                        print(y.text, x[0])
+                        self.ids["teachers_ui_attendance_list_absent_container"].add_widget(
+                            OneLineListItem(text=x[0]))
+
+        mycursor.execute(f'SELECT name FROM students_tbl')
+        if len(self.ids["teachers_ui_attendance_list_container"].children) == 0:
+            for x in mycursor.fetchall():
+                self.ids["teachers_ui_attendance_list_container"].add_widget(
+                    OneLineListItem(text=x[0])
+                )
 
 
 class ScreenMan(ScreenManager):
